@@ -1,18 +1,13 @@
 class Character extends MovableObject{
-    x;
-    y;
 
 
+constructor(){
+    super().loadImage('img/2_character_pepe/2_walk/W-21.png');
+}
 
-    moveRight() {
-
-    }
-
-    moveLeft() {
-
-    }
 
     jump() {
 
     }
 }
+
