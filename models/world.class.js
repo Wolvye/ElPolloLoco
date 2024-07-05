@@ -1,40 +1,32 @@
 class World {
     character = new Character();
-    enemies = [
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
-
-    ];
-    clouds = [
-        new Cloud()
-    ];
+    level = level1;
     canvas;
     ctx; //ctx steht für context
-    backgroundObject = [
-        new BackgroundObject('img/5_background/layers/air.png', 0),
-        new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 0),
-        new BackgroundObject('img/5_background/layers/2_second_layer/1.png', 0),
-        new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 0)
-      
+    keyboard;
 
-    ];
-
-    constructor(canvas) {
+    camera_x = 0;
+    constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.draw();
+        this.keyboard = keyboard;
+        this.setWorld();
     }
-
+    setWorld() {
+        this.character.world = this;
+    }
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        //achte auf die Reihenfolge! So kann man die Bilder richtig übereinander legen
-        this.addObjectsToMap(this.backgroundObject);
-        this.addObjectsToMap(this.clouds);
-        this.addObjectsToMap(this.enemies);
-        this.addToMap(this.character);
+        this.ctx.translate(this.camera_x, 0);
 
+        //achte auf die Reihenfolge! So kann man die Bilder richtig übereinander legen
+        this.addObjectsToMap(this.level.backgroundObject);
+        this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.enemies);
+        this.addToMap(this.character);
+        this.ctx.translate(-this.camera_x, 0); 
         //Draw wird immer wieder Aufgerufen!
         let self = this;
         requestAnimationFrame(function () {
@@ -49,7 +41,19 @@ class World {
         })
     }
     addToMap(mo) {
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        if (mo.otherDirection) {
+            this.ctx.save();
+            this.ctx.translate(mo.width, 0);
+            this.ctx.scale(-1, 1);
+            mo.x = mo.x * -1;
 
+        }
+        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        if (mo.otherDirection) {
+            mo.x = mo.x * -1;
+
+            this.ctx.restore();
+
+        }
     }
 };
