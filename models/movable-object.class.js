@@ -53,8 +53,8 @@ class MovableObject {
     isColliding(mo) {
         return this.x + this.width > mo.x &&
             this.y + this.height > this.y &&
-            this.x < this.moveLeft.x &&
-            this.y < this.moveLeft.y + this.height;
+            this.x < this.x &&
+            this.y < this.y + this.height;
     }
 
     loadImages(arr) {
