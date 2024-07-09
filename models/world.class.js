@@ -5,10 +5,14 @@ class World {
     ctx; //ctx steht für context
     keyboard;
     camera_x = 0;
-    statusBar= new StatusBar();
+    statusBar = new StatusBar();
     throwableObjects = [];
-    collectableObjects= new CollectableObject;
-
+    // bottles = [ new CollectableObject('salsa'),
+    //             new CollectableObject('salsa')
+    //             ];
+    // bottle = new CollectableObject('salsa');
+    // coins = [];
+    // coin = new CollectableObject('coin');
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -17,6 +21,7 @@ class World {
         this.keyboard = keyboard;
         this.setWorld();
         this.run();
+        // this.bottles.push(this.bottle);
     }
     setWorld() {
         this.character.world = this;
@@ -27,13 +32,13 @@ class World {
             this.checkThrowObjects();
         }, 200);
     }
-    checkThrowObjects(){
-        if(this.keyboard.SPACE){
-            let bottle= new ThrowableObject(this.character.x+100, this.character.y+100);
+    checkThrowObjects() {
+        if (this.keyboard.SPACE) {
+            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
         }
     }
-    checkCollisions(){
+    checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
@@ -41,12 +46,14 @@ class World {
             }
         })
     }
-      //achte auf die Reihenfolge! So kann man die Bilder richtig übereinander legen
-    draw() { 
+    //achte auf die Reihenfolge! So kann man die Bilder richtig übereinander legen
+    draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObject);
+        this.addObjectsToMap(this.level.bottles);
+         this.addObjectsToMap(this.level.coins);
 
         this.ctx.translate(-this.camera_x, 0);
         //------space for fixed obj------
@@ -57,9 +64,8 @@ class World {
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
-        this.addObjectsToMap(this.collectableObjects);
 
- 
+
         this.ctx.translate(-this.camera_x, 0);
         //Draw wird immer wieder Aufgerufen!
         let self = this;
