@@ -6,6 +6,8 @@ class World {
     keyboard;
     camera_x = 0;
     statusBar= new StatusBar();
+    throwableObjects = [];
+    collectableObjects= new CollectableObject;
 
 
     constructor(canvas, keyboard) {
@@ -14,22 +16,31 @@ class World {
         this.draw();
         this.keyboard = keyboard;
         this.setWorld();
-        this.checkCollisions();
+        this.run();
     }
     setWorld() {
         this.character.world = this;
     }
-    checkCollisions() {
+    run() {
         setInterval(() => {
-            this.level.enemies.forEach((enemy) => {
-                if (this.character.isColliding(enemy)) {
-                    this.character.hit();
-                    this.statusBar.setPercentage(this.character.energy);
-                }
-            })
+            this.checkCollisions();
+            this.checkThrowObjects();
         }, 200);
     }
-
+    checkThrowObjects(){
+        if(this.keyboard.SPACE){
+            let bottle= new ThrowableObject(this.character.x+100, this.character.y+100);
+            this.throwableObjects.push(bottle);
+        }
+    }
+    checkCollisions(){
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
+                this.character.hit();
+                this.statusBar.setPercentage(this.character.energy);
+            }
+        })
+    }
       //achte auf die Reihenfolge! So kann man die Bilder richtig übereinander legen
     draw() { 
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -45,6 +56,9 @@ class World {
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.throwableObjects);
+        this.addObjectsToMap(this.collectableObjects);
+
  
         this.ctx.translate(-this.camera_x, 0);
         //Draw wird immer wieder Aufgerufen!
