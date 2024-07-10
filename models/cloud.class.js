@@ -5,7 +5,8 @@ class Cloud extends MovableObject {
 
     constructor() {
         super().loadImage('img/5_background/layers/4_clouds/1.png');
-        this.x = Math.random() * 500;  //die Chicken starten dadurch an unterschiedlichen stellen
+
+        this.x = Math.random() * 5000;  //die Clouds starten dadurch an unterschiedlichen stellen
         this.animate();
     }
     //für die Bewegung der Wolken 

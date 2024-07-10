@@ -1,22 +1,22 @@
-class StatusBar extends DrawableObject {
+class SalsaBar extends DrawableObject {
 
-    IMAGES_HITPOINTS = [
-        'img/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png',
-        'img/7_statusbars/1_statusbar/2_statusbar_health/blue/20.png',
-        'img/7_statusbars/1_statusbar/2_statusbar_health/blue/40.png',
-        'img/7_statusbars/1_statusbar/2_statusbar_health/blue/60.png',
-        'img/7_statusbars/1_statusbar/2_statusbar_health/blue/80.png',
-        'img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png',
+    IMAGES_SALSA = [
+      'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/0.png',
+      'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/20.png',
+      'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/40.png',
+      'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/60.png',
+      'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/80.png',
+      'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/100.png',
     ];
-    percentage = 100;
+    percentage = 0;
 
    
 
     constructor() {
         super();
-        this.loadImages(this.IMAGES_HITPOINTS);
+        this.loadImages(this.IMAGES_SALSA);
         this.x = 50;
-        this.y = 0;
+        this.y = 50;
         this.width = 250;
         this.height = 65;
         this.setPercentage(100);
@@ -25,7 +25,7 @@ class StatusBar extends DrawableObject {
     //setPercentage(50)
     setPercentage(percentage) {
         this.percentage = percentage;
-        let path = this.IMAGES_HITPOINTS[this.resolveImageIndex()];
+        let path = this.IMAGES_SALSA[this.resolveImageIndex()];
         console.log(path);
         this.img = this.imgCache[path];
 

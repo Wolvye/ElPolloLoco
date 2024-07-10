@@ -24,4 +24,4 @@ class CollectableObject extends DrawableObject {
             this.y = 150;
         };
     }
-}9
+}

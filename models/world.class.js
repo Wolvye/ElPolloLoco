@@ -7,12 +7,9 @@ class World {
     camera_x = 0;
     statusBar = new StatusBar();
     throwableObjects = [];
-    // bottles = [ new CollectableObject('salsa'),
-    //             new CollectableObject('salsa')
-    //             ];
-    // bottle = new CollectableObject('salsa');
-    // coins = [];
-    // coin = new CollectableObject('coin');
+    salsaBar = new SalsaBar();
+    coinBar = new CoinBar();
+
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -21,7 +18,6 @@ class World {
         this.keyboard = keyboard;
         this.setWorld();
         this.run();
-        // this.bottles.push(this.bottle);
     }
     setWorld() {
         this.character.world = this;
@@ -58,6 +54,8 @@ class World {
         this.ctx.translate(-this.camera_x, 0);
         //------space for fixed obj------
         this.addToMap(this.statusBar);
+        this.addToMap(this.salsaBar);
+        this.addToMap(this.coinBar);
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);
