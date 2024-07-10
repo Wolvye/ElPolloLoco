@@ -5,6 +5,9 @@ class MovableObject extends DrawableObject {
     acceleration = 2.5;
     energy = 100;
     lastHit = 0;
+    fullSalsa = 100;
+    salsaEnergy =0;
+    fullcoinds = 100;
 
     offset = {
         top: 0,
@@ -69,6 +72,17 @@ class MovableObject extends DrawableObject {
             this.lastHit = new Date().getTime();
         }
     }
+
+    collectSalsa() {
+
+        this.salsaEnergy += 20;
+        if (this.salsaEnergy > 0) {
+            this.salsaEnergy = 0;
+        } else {
+            this.fullSalsa = new Date().getTime();
+        }
+    }
+
     isDead() {
         return this.energy == 0;
 

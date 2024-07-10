@@ -42,6 +42,14 @@ class World {
             }
         })
     }
+    checkCollectSalsa() {
+        this.level.enemies.forEach((salsa) => {
+            if (this.character.isColliding(salsa)) {
+                this.character.collectSalsa();
+                this.statusBar.setPercentage(this.character.salsaEnergy);
+            }
+        })
+    }
     //achte auf die Reihenfolge! So kann man die Bilder richtig übereinander legen
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
