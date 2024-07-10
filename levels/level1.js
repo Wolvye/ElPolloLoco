@@ -36,16 +36,20 @@ const level1 = new Level(
         new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 719 * 3)
     ],
     [
-        new CollectableObject('salsa',300),
-        new CollectableObject('salsa',200),
-        new CollectableObject('salsa',100), 
+        new CollectableObject('salsa',600),
+        new CollectableObject('salsa',900),
+        new CollectableObject('salsa',1300), 
+        new CollectableObject('salsa',300), 
+        new CollectableObject('salsa',1500), 
         
         
     ],
     [
-        new CollectableObject('coins',300),
-        new CollectableObject('coins',200),
-        new CollectableObject('coins',100),
+        new CollectableObject('coins',700),
+        new CollectableObject('coins',1000),
+        new CollectableObject('coins',1500),
+        new CollectableObject('coins',1800),
+        new CollectableObject('coins',1200),
     ]
 
 );

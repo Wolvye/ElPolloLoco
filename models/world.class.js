@@ -53,7 +53,7 @@ class World {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObject);
         this.addObjectsToMap(this.level.bottles);
-         this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.coins);
 
         this.ctx.translate(-this.camera_x, 0);
         //------space for fixed obj------
