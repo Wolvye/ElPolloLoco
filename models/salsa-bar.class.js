@@ -19,7 +19,7 @@ class SalsaBar extends DrawableObject {
         this.y = 50;
         this.width = 250;
         this.height = 65;
-        this.setPercentage(100);
+        this.setPercentage(0);
     }
 
     //setPercentage(50)
@@ -36,13 +36,13 @@ class SalsaBar extends DrawableObject {
 
         if (this.percentage == 100) {
             return 5;
-        } else if (this.percentage > 80) {
+        } else if (this.percentage >= 80) {
             return 4;
-        } else if (this.percentage > 60) {
+        } else if (this.percentage >= 60) {
             return 3;
-        } else if (this.percentage > 40) {
+        } else if (this.percentage >= 40) {
             return 2;
-        } else if (this.percentage > 20) {
+        } else if (this.percentage >= 20) {
             return 1;
         } else {
             return 0;

@@ -76,7 +76,7 @@ class MovableObject extends DrawableObject {
     collectSalsa() {
 
         this.salsaEnergy += 20;
-        if (this.salsaEnergy > 0) {
+        if (this.salsaEnergy < 0) {
             this.salsaEnergy = 0;
         } else {
             this.fullSalsa = new Date().getTime();

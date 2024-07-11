@@ -6,7 +6,13 @@ class CollectableObject extends DrawableObject {
         'img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
         'img/6_salsa_bottle/2_salsa_bottle_on_ground.png',
     ];
-
+    offset={
+        top:50,
+        left:55,
+        right:50,
+        bottom:40,
+    };
+    
     constructor(item,x) {
         super();
 

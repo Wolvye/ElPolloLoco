@@ -9,7 +9,7 @@ class World {
     throwableObjects = [];
     salsaBar = new SalsaBar();
     coinBar = new CoinBar();
-
+    salsaChache = 0;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -26,6 +26,7 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
+            this.checkCollectSalsa();
         }, 200);
     }
     checkThrowObjects() {
@@ -43,13 +44,17 @@ class World {
         })
     }
     checkCollectSalsa() {
-        this.level.enemies.forEach((salsa) => {
-            if (this.character.isColliding(salsa)) {
+        this.level.bottles.forEach((salsa) => {
+            if (this.character.isColliding(salsa) && this.salsaChache != 100) {
                 this.character.collectSalsa();
-                this.statusBar.setPercentage(this.character.salsaEnergy);
+                    this.salsaChache += 20;
+                    this.salsaBar.setPercentage(this.salsaChache);
+                     this.level.bottles.slice(salsa);
+                
             }
         })
     }
+
     //achte auf die Reihenfolge! So kann man die Bilder richtig übereinander legen
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
