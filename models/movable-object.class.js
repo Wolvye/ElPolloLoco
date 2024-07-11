@@ -7,7 +7,7 @@ class MovableObject extends DrawableObject {
     lastHit = 0;
     fullSalsa = 100;
     salsaEnergy =0;
-    fullcoinds = 100;
+    
 
     offset = {
         top: 0,
@@ -82,7 +82,7 @@ class MovableObject extends DrawableObject {
             this.fullSalsa = new Date().getTime();
         }
     }
-
+  
     isDead() {
         return this.energy == 0;
 

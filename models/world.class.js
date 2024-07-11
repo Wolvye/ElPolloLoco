@@ -10,6 +10,7 @@ class World {
     salsaBar = new SalsaBar();
     coinBar = new CoinBar();
     salsaChache = 0;
+    coinCache = 0;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -27,7 +28,8 @@ class World {
             this.checkCollisions();
             this.checkThrowObjects();
             this.checkCollectSalsa();
-        }, 200);
+            this.checkCollectCoin();
+        }, 50);
     }
     checkThrowObjects() {
         if (this.keyboard.SPACE) {
@@ -44,13 +46,27 @@ class World {
         })
     }
     checkCollectSalsa() {
-        this.level.bottles.forEach((salsa) => {
+        this.level.bottles.forEach((salsa, i) => {
             if (this.character.isColliding(salsa) && this.salsaChache != 100) {
                 this.character.collectSalsa();
-                    this.salsaChache += 20;
-                    this.salsaBar.setPercentage(this.salsaChache);
-                     this.level.bottles.slice(salsa);
-                
+                this.salsaChache += 20;
+                this.salsaBar.setPercentage(this.salsaChache);
+                this.level.bottles.splice(i,1);
+
+
+            }
+        })
+    }
+
+    checkCollectCoin() {
+        this.level.coins.forEach((coins,i) => {
+            if (this.character.isColliding(coins)&& this.coinCache != 100) {
+             
+                this.coinCache += 20;
+                this.coinBar.setPercentage(this.coinCache);
+                this.level.coins.splice(i,1);
+
+
             }
         })
     }

@@ -5,7 +5,7 @@ class Character extends MovableObject {
     y = 80;
     offset={
         top:100,
-        left:30,
+        left:40,
         right:40,
         bottom:10
     };
