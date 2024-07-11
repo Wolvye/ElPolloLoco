@@ -32,19 +32,34 @@ class World {
         }, 50);
     }
     checkThrowObjects() {
-        if (this.keyboard.SPACE) {
+        if (this.keyboard.SPACE && this.salsaChache != 0) {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
+            this.salsaChache-=20;
+            this.salsaBar.setPercentage(this.salsaChache);
         }
     }
+
+
+
+
+
+
+
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.energy);
             }
-        })
+        });
     }
+    
+
+
+
+
+
     checkCollectSalsa() {
         this.level.bottles.forEach((salsa, i) => {
             if (this.character.isColliding(salsa) && this.salsaChache != 100) {
@@ -52,7 +67,6 @@ class World {
                 this.salsaChache += 20;
                 this.salsaBar.setPercentage(this.salsaChache);
                 this.level.bottles.splice(i,1);
-
 
             }
         })

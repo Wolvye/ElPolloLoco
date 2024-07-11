@@ -7,7 +7,9 @@ class Chicken extends MovableObject {
         'img/3_enemies_chicken/chicken_normal/1_walk/3_w.png',
     ];
 
-
+    IMAGES_DEAD_CHICKI = [
+        'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
+    ]
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.x = 200 + Math.random() * 3000;  //die Chicken starten dadurch an unterschiedlichen stellen
@@ -29,6 +31,7 @@ class Chicken extends MovableObject {
         }, 200)
 
     }
+
 
 
 }

@@ -1,4 +1,5 @@
 class MovableObject extends DrawableObject {
+  
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
@@ -64,7 +65,6 @@ class MovableObject extends DrawableObject {
         this.speedY = 30;
     }
     hit() {
-
         this.energy -= 20;
         if (this.energy < 0) {
             this.energy = 0;

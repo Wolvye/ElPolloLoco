@@ -6,12 +6,7 @@ class CollectableObject extends DrawableObject {
         'img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
         'img/6_salsa_bottle/2_salsa_bottle_on_ground.png',
     ];
-    offset={
-        top:30,
-        left:55,
-        right:50,
-        bottom:40,
-    };
+    
     
     constructor(item,x) {
         super();
@@ -22,12 +17,25 @@ class CollectableObject extends DrawableObject {
             this.height = 100;
             this.x = x;
             this.y = 340;
+            this.offset={
+                top:20,
+                left:60,
+                right:40,
+                bottom:0
+            }
+            
         } else {
             this.loadImage('img/8_coin/coin_2.png');
             this.height = 150;
             this.width = 150;
             this.x = x;
             this.y = 150;
+            this.offset={
+                top:50,
+                left:50,
+                right:50,
+                bottom:50
+            }
         };
     }
 }
