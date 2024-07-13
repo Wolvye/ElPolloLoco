@@ -11,7 +11,7 @@ class World {
     coinBar = new CoinBar();
     salsaChache = 0;
     coinCache = 0;
-
+    stopRunIntervallID;
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -24,45 +24,62 @@ class World {
         this.character.world = this;
     }
     run() {
-        setInterval(() => {
+       this.stopRunIntervallID= setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
             this.checkCollectSalsa();
             this.checkCollectCoin();
+            this.hitChicken();
+        ;
         }, 50);
     }
     checkThrowObjects() {
-        if (this.keyboard.SPACE && this.salsaChache != 0) {
+        if (this.keyboard.SPACE && this.salsaChache !== 0) {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
-            this.salsaChache-=20;
-            this.salsaBar.setPercentage(this.salsaChache);
+            this.salsaChache -= 20;
+            this.salsaBar.setPercentage(this.salsaChache);   
         }
     }
-
-
-
-
-
-
-
-    checkCollisions() {
+    
+    hitChicken() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
-                this.character.hit();
-                this.statusBar.setPercentage(this.character.energy);
-            }
+            this.throwableObjects.forEach((bottle) => {
+                if (bottle.isColliding(enemy)  &&  !(enemy instanceof Endboss)) {
+                    console.log("hit das chicken");
+                    enemy.offset = 100;
+                    enemy.playAnimation(enemy.IMAGES_DEAD_CHICKI);
+                    clearInterval(enemy.animateIntervallID);
+                    clearInterval(enemy.animateIntervallID2); 
+                }
+            });
         });
     }
     
 
 
-
-
+    checkCollisions() {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
+                if(!this.character.isAboveGround()){
+                this.character.hit();
+                this.statusBar.setPercentage(this.character.energy);
+                } else {
+                    enemy.isColliding(this.character);
+                    enemy.offset=100;
+                    enemy.playAnimation(enemy.IMAGES_DEAD_CHICKI);
+                    clearInterval(enemy.animateIntervallID);
+                    clearInterval(enemy.animateIntervallID2);                   
+                }
+            }
+        });
+    }
+    
+ 
 
     checkCollectSalsa() {
         this.level.bottles.forEach((salsa, i) => {
-            if (this.character.isColliding(salsa) && this.salsaChache != 100) {
+            if (this.character.isColliding(salsa) && this.salsaChache !== 100) {
                 this.character.collectSalsa();
                 this.salsaChache += 20;
                 this.salsaBar.setPercentage(this.salsaChache);

@@ -1,5 +1,5 @@
 class ThrowableObject extends MovableObject {
-    
+   
     offset = {
         top: 10,
         left: 30,
@@ -17,7 +17,6 @@ class ThrowableObject extends MovableObject {
     }
 
     throw(x, y) {
-        
             this.speedY = 30;
             this.apllyGravity();
             setInterval(() => {
