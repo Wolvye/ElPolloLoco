@@ -24,13 +24,14 @@ class World {
         this.character.world = this;
     }
     run() {
-       this.stopRunIntervallID= setInterval(() => {
+        this.stopRunIntervallID = setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
             this.checkCollectSalsa();
             this.checkCollectCoin();
             this.hitChicken();
-        ;
+            this.hitChickenboss();
+            ;
         }, 50);
     }
     checkThrowObjects() {
@@ -38,44 +39,60 @@ class World {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
             this.salsaChache -= 20;
-            this.salsaBar.setPercentage(this.salsaChache);   
+            this.salsaBar.setPercentage(this.salsaChache);
         }
     }
-    
+
     hitChicken() {
         this.level.enemies.forEach((enemy) => {
             this.throwableObjects.forEach((bottle) => {
-                if (bottle.isColliding(enemy)  &&  !(enemy instanceof Endboss)) {
+                if (bottle.isColliding(enemy) && !(enemy instanceof Endboss)) {
                     console.log("hit das chicken");
                     enemy.offset = 100;
                     enemy.playAnimation(enemy.IMAGES_DEAD_CHICKI);
                     clearInterval(enemy.animateIntervallID);
-                    clearInterval(enemy.animateIntervallID2); 
+                    clearInterval(enemy.animateIntervallID2);
                 }
             });
         });
     }
-    
+
+    hitChickenboss() {
+        this.level.enemies.forEach((Endboss) => {
+            this.throwableObjects.forEach((bottle) => {
+                if (bottle.isColliding(Endboss) && !(this.isDead)) {
+                    console.log("hit das chicken");
+                    this.hitBoss();
+                    console.log("hat noch energie:");
+                    Endboss.playAnimation(Endboss.IMAGES_HURT_BOSS);
+                } else {
+                    clearInterval(Endboss.animateIntervallIDBoss);
+                    clearInterval(Endboss.animateIntervallIDBoss2);
+                }
+            });
+        });
+    }
+
 
 
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                if(!this.character.isAboveGround()){
-                this.character.hit();
-                this.statusBar.setPercentage(this.character.energy);
+                if (!this.character.isAboveGround()) {
+                    this.character.hit();
+                    this.statusBar.setPercentage(this.character.energy);
                 } else {
                     enemy.isColliding(this.character);
-                    enemy.offset=100;
+                    enemy.offset = 100;
                     enemy.playAnimation(enemy.IMAGES_DEAD_CHICKI);
                     clearInterval(enemy.animateIntervallID);
-                    clearInterval(enemy.animateIntervallID2);                   
+                    clearInterval(enemy.animateIntervallID2);
                 }
             }
         });
     }
-    
- 
+
+
 
     checkCollectSalsa() {
         this.level.bottles.forEach((salsa, i) => {
@@ -83,19 +100,19 @@ class World {
                 this.character.collectSalsa();
                 this.salsaChache += 20;
                 this.salsaBar.setPercentage(this.salsaChache);
-                this.level.bottles.splice(i,1);
+                this.level.bottles.splice(i, 1);
 
             }
         })
     }
 
     checkCollectCoin() {
-        this.level.coins.forEach((coins,i) => {
-            if (this.character.isColliding(coins)&& this.coinCache != 100) {
-             
+        this.level.coins.forEach((coins, i) => {
+            if (this.character.isColliding(coins) && this.coinCache != 100) {
+
                 this.coinCache += 20;
                 this.coinBar.setPercentage(this.coinCache);
-                this.level.coins.splice(i,1);
+                this.level.coins.splice(i, 1);
 
 
             }
@@ -166,3 +183,4 @@ class World {
         this.ctx.restore();
     }
 };
+

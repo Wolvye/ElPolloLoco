@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>El Pollo Loco</title>
+    <style>
+        @font-face{
+            font-family: 'zabras';
+            src: url('fonts/zabars.ttf') format('truetype');
+        }
+    </style>
+    <script src="script.js"></script>
     <script src="models/drawable-object.js"></script>
     <script src="models/movable-object.class.js"></script>
     <script src="models/character.class.js"></script>
@@ -22,14 +29,19 @@
     <script src="models/endboss.class.js"></script>
     <script src="levels/level1.js"></script>
     <script src="js/game.js"></script>
+    
  
 
 </head>
 <body onload="init()">
+    
     <h1>El Pollo Loco</h1>
 
     <canvas id="canvas" width="720" height="480"></canvas>
-    
+    <div class="startScreen" id="startScreenID"> </div>
+    <div>
+        <button class="buttonClass" id="buttonID" onclick="startButton(), initLevel()">LETS GO</button>
+    </div>
     <div class="manual">
         <h1>El Manual</h1>
     <div ><img src="img/design/space.png" alt="space for throwing bottles"> throw bottle </div>
@@ -39,4 +51,5 @@
     <div><img src="img/design/right.png" alt="right-key for moving right"> right-key for moving right </div>
     </div>
 </body>
+
 </html> 

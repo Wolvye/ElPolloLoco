@@ -72,6 +72,14 @@ class MovableObject extends DrawableObject {
             this.lastHit = new Date().getTime();
         }
     }
+    hitBoss() {
+        this.energy -= 34;
+        if (this.energy < 0) {
+            this.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();
+        }
+    }
 
     collectSalsa() {
 
