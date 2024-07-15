@@ -3,11 +3,11 @@ class Character extends MovableObject {
     width = 150;
     speed = 10;
     y = 80;
-    offset={
-        top:100,
-        left:40,
-        right:40,
-        bottom:10
+    offset = {
+        top: 100,
+        left: 40,
+        right: 40,
+        bottom: 10
     };
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -28,7 +28,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/3_jump/J-38.png',
         'img/2_character_pepe/3_jump/J-39.png',
     ]
-    IMAGES_DEAD=[ 
+    IMAGES_DEAD = [
         'img/2_character_pepe/5_dead/D-51.png',
         'img/2_character_pepe/5_dead/D-52.png',
         'img/2_character_pepe/5_dead/D-53.png',
@@ -38,15 +38,17 @@ class Character extends MovableObject {
         'img/2_character_pepe/5_dead/D-57.png',
 
     ]
-    IMAGES_HURT=[
+    IMAGES_HURT = [
         'img/2_character_pepe/4_hurt/H-41.png',
         'img/2_character_pepe/4_hurt/H-42.png',
         'img/2_character_pepe/4_hurt/H-43.png',
     ]
 
-    world; 
+    world;
+
     walking_sound = new Audio('audio/run.mp3');
-    
+    jump_sound = new Audio('audio/jump.mp3');
+
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
@@ -56,7 +58,7 @@ class Character extends MovableObject {
         this.animate();
         this.apllyGravity();
     }
-
+    
     animate() {
         setInterval(() => {
             this.walking_sound.pause();
@@ -70,22 +72,22 @@ class Character extends MovableObject {
                 this.moveLeft();
                 this.walking_sound.play();
                 this.otherDirection = true;
-
             }
 
             if (this.world.keyboard.UP && !this.isAboveGround()) {
                 this.jump();
+                this.jump_sound.play();
             }
 
             this.world.camera_x = -this.x + 100;
 
         }, 1000 / 60);
-        
+
         setInterval(() => {
-            if(this.isDead()){
+            if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
 
-            }else if(this.isHurt()){
+            } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
 
             }

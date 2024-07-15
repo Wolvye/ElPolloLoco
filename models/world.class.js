@@ -12,6 +12,12 @@ class World {
     salsaChache = 0;
     coinCache = 0;
     stopRunIntervallID;
+    throwBottle_Sound = new Audio('audio/throw.mp3');
+    deadChicken_Sound = new Audio('audio/deadChicken.mp3');
+    hitChicken_Sound = new Audio('audio/glass.mp3');
+    gameOver_Sound = new Audio('audio/gameOver.mp3');
+    onehit = false;
+
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -31,6 +37,8 @@ class World {
             this.checkCollectCoin();
             this.hitChicken();
             this.hitChickenboss();
+            this.gameOver();
+
             ;
         }, 50);
     }
@@ -40,6 +48,7 @@ class World {
             this.throwableObjects.push(bottle);
             this.salsaChache -= 20;
             this.salsaBar.setPercentage(this.salsaChache);
+            this.throwBottle_Sound.play();
         }
     }
 
@@ -47,33 +56,47 @@ class World {
         this.level.enemies.forEach((enemy) => {
             this.throwableObjects.forEach((bottle) => {
                 if (bottle.isColliding(enemy) && !(enemy instanceof Endboss)) {
-                    console.log("hit das chicken");
+                    this.deadChicken_Sound.play();
+                    this.hitChicken_Sound.play();
                     enemy.offset = 100;
                     enemy.playAnimation(enemy.IMAGES_DEAD_CHICKI);
                     clearInterval(enemy.animateIntervallID);
                     clearInterval(enemy.animateIntervallID2);
+
                 }
             });
         });
     }
-
+    
     hitChickenboss() {
         this.level.enemies.forEach((Endboss) => {
             this.throwableObjects.forEach((bottle) => {
-                if (bottle.isColliding(Endboss) && !Endboss.isDead()) {
+        
+                if (bottle.isColliding(Endboss) && !Endboss.isDead() && this.onehit == false) {
+                    this.onehit = true;
                     Endboss.hitBoss();
-                   // console.log("hat noch energie:" MovableObject.energy);
+                    console.log("hat noch energie:", Endboss.energy);
                     Endboss.playAnimation(Endboss.IMAGES_HURT_BOSS);
                     Endboss.animate();
-                } else if(Endboss.isDead()){
+                    
+                } else if (Endboss.isDead()) {
+                    console.log("ueberlebt mit:", Endboss.energy);
+                    this.hitChicken_Sound.play();
                     clearInterval(Endboss.animateIntervallIDBoss);
                     clearInterval(Endboss.animateIntervallIDBoss2);
-                    this.playAnimation(IMAGES_DEAD_BOSS);
+                    // playAnimation(Endboss.IMAGES_DEAD_BOSS);
                 }
             });
         });
-    }
+    };
 
+    gameOver() {
+        if (this.character.energy == 0)
+            clearInterval(world.stopRunIntervallID);
+            //this.loadImage('img/9_intro_outro_screens/game_over/game over!.png')
+            //this.gameOver_Sound.play();
+
+    };
 
 
     checkCollisions() {
@@ -84,6 +107,7 @@ class World {
                     this.statusBar.setPercentage(this.character.energy);
                 } else {
                     enemy.isColliding(this.character);
+                    this.deadChicken_Sound.play();
                     enemy.offset = 100;
                     enemy.playAnimation(enemy.IMAGES_DEAD_CHICKI);
                     clearInterval(enemy.animateIntervallID);

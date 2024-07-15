@@ -4,11 +4,11 @@ class Chicken extends MovableObject {
     animateIntervallID;
     animateIntervallID2;
 
-    offset={
-        top:0,
-        left:0,
-        right:0,
-        bottom:0
+    offset = {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
     };
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
@@ -19,6 +19,8 @@ class Chicken extends MovableObject {
     IMAGES_DEAD_CHICKI = [
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
     ]
+    chicken_sound = new Audio('audio/chicken.mp3');
+    
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.x = 200 + Math.random() * 3000;  //die Chicken starten dadurch an unterschiedlichen stellen
@@ -31,12 +33,13 @@ class Chicken extends MovableObject {
 
 
     animate() {
-       
-        this.animateIntervallID=setInterval(() => {
+      //  this.chicken_sound.volume=0.01;
+        this.animateIntervallID = setInterval(() => {
             this.moveLeft();
+        //    this.chicken_sound.play();
         }, 1000 / 60)
-
-        this.animateIntervallID2=setInterval(() => {
+    
+        this.animateIntervallID2 = setInterval(() => {
             this.playAnimation(this.IMAGES_WALKING);
         }, 200)
 

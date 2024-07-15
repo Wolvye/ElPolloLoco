@@ -1,53 +1,93 @@
 let canvas;
-let world ;
-let keyboard= new Keyboard();
+let world;
+let keyboard = new Keyboard();
 
 
 
-function init(){
+function init() {
     initLevel();
-    canvas= document.getElementById('canvas');
-    world = new World(canvas,keyboard);
+    canvas = document.getElementById('canvas');
+    world = new World(canvas, keyboard);
+    bindButtons();
+
+
     
-
-    console.log("My Char is,", world.character);
 }
+function bindButtons() {
 
+    document.getElementById('leftButton').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.LEFT = true;
+    });
 
-window.addEventListener("keydown", (event)=>{
-    if(event.keyCode==39){
-        keyboard.RIGHT=true;
+    document.getElementById('leftButton').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.LEFT = false;
+    });
+    document.getElementById('rightButton').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.RIGHT = true;
+    });
+
+    document.getElementById('rightButton').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.RIGHT = false;
+    });
+    document.getElementById('upButton').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.UP = true;
+    });
+
+    document.getElementById('upButton').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.UP = false;
+    });
+    document.getElementById('throwButton').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.SPACE = true;
+    });
+
+    document.getElementById('throwButton').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.SPACE = false;
+    });
+}
+   
+        
+   
+window.addEventListener("keydown", (event) => {
+    if (event.keyCode == 39) {
+        keyboard.RIGHT = true;
     }
-    if(event.keyCode==37){
-        keyboard.LEFT=true;
+    if (event.keyCode == 37) {
+        keyboard.LEFT = true;
     }
-    if(event.keyCode==38){
-        keyboard.UP=true;
+    if (event.keyCode == 38) {
+        keyboard.UP = true;
     }
-    if(event.keyCode==40){
-        keyboard.DOWN=true;
+    if (event.keyCode == 40) {
+        keyboard.DOWN = true;
     }
-    if(event.keyCode==32){
-        keyboard.SPACE=true;
+    if (event.keyCode == 32) {
+        keyboard.SPACE = true;
     }
-    console.log(event);
+    
 });
 
-window.addEventListener("keyup", (event)=>{
-    if(event.keyCode==39){
-        keyboard.RIGHT=false;
+window.addEventListener("keyup", (event) => {
+    if (event.keyCode == 39) {
+        keyboard.RIGHT = false;
     }
-    if(event.keyCode==37){
-        keyboard.LEFT=false;
+    if (event.keyCode == 37) {
+        keyboard.LEFT = false;
     }
-    if(event.keyCode==38){
-        keyboard.UP=false;
+    if (event.keyCode == 38) {
+        keyboard.UP = false;
     }
-    if(event.keyCode==40){
-        keyboard.DOWN=false;
+    if (event.keyCode == 40) {
+        keyboard.DOWN = false;
     }
-    if(event.keyCode==32){
-        keyboard.SPACE=false;
+    if (event.keyCode == 32) {
+        keyboard.SPACE = false;
     }
-    console.log(event);
 });
