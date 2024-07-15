@@ -1,6 +1,6 @@
 class World {
     character = new Character();
-    level = level1;
+    level = Level1;
     canvas;
     ctx; //ctx steht für context
     keyboard;
@@ -60,14 +60,15 @@ class World {
     hitChickenboss() {
         this.level.enemies.forEach((Endboss) => {
             this.throwableObjects.forEach((bottle) => {
-                if (bottle.isColliding(Endboss) && !(this.isDead)) {
-                    console.log("hit das chicken");
-                    this.hitBoss();
-                    console.log("hat noch energie:");
+                if (bottle.isColliding(Endboss) && !Endboss.isDead()) {
+                    Endboss.hitBoss();
+                   // console.log("hat noch energie:" MovableObject.energy);
                     Endboss.playAnimation(Endboss.IMAGES_HURT_BOSS);
-                } else {
+                    Endboss.animate();
+                } else if(Endboss.isDead()){
                     clearInterval(Endboss.animateIntervallIDBoss);
                     clearInterval(Endboss.animateIntervallIDBoss2);
+                    this.playAnimation(IMAGES_DEAD_BOSS);
                 }
             });
         });
