@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>El Pollo Loco</title>
     <style>
-        @font-face{
+        @font-face {
             font-family: 'zabras';
             src: url('fonts/zabars.ttf') format('truetype');
         }
@@ -29,33 +30,46 @@
     <script src="models/endboss.class.js"></script>
     <script src="levels/level1.js"></script>
     <script src="js/game.js"></script>
-    
- 
+
+
 
 </head>
+
 <body onload="init()">
-    
+
     <h1>El Pollo Loco</h1>
 
     <canvas id="canvas" width="720" height="480"></canvas>
-    <div class="startScreen" id="startScreenID"> </div>
-    <div>
-        <button class="buttonClass" id="buttonID" onclick="startButton(), initLevel()">LETS GO</button>
+   
+    <panel class="panel">
+        <div class="buttonsClassLeft">
+            <button class="MoveButtonClass" id="leftButton"><img src="img/design/left.PNG" alt="leftbutton"></button>
+            <button class="MoveButtonClass" id="rightButton"><img src="img/design/right.PNG" alt=""></button>
+        </div>
+       
+        <div class="buttonclassRight">
+            <button class="MoveButtonClass" id="upButton"><img src="img/design/up.PNG" alt=""></button>
+            <button class="MoveButtonClass" id="throwButton"><img src="img/design/space.png" alt=""></button>
+        </div>
+    </panel>
+    <div class="startScreen" id="startScreenID" onclick="startButton(), initLevel()">
+     
     </div>
-    <panel>
-        <button id="leftButton">LEFT</button>
-        <button id="rightButton">RIGHT</button>
-        <button id="upButton">UP</button>
-        <button id="throwButton">THROW</button>
-    </>
-    <div class="manual">
-        <h1>El Manual</h1>
-    <div ><img src="img/design/space.png" alt="space for throwing bottles"> throw bottle </div>
-    <div><img src="img/design/up.png" alt="up-key for jumping"> up-key for jumping</div>
-    <div><img src="img/design/down.png" alt="down-key for nothing"> down-key for nothing SLEEPING? </div>
-    <div><img src="img/design/left.png" alt="left-key for moving left"> left-key for moving left</div>
-    <div><img src="img/design/right.png" alt="right-key for moving right"> right-key for moving right </div>
-    </div>
+    <div class="gameOver" id="gameOverID"></div>
+    <footer>
+        <p>&copy; 2024 El Pollo Loco</p>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="impressum.html">Impressum</a></li>
+                <li><a href="datenschutz.html">Datenschutz</a></li>
+            </ul>
+        </nav>
+    </footer>
+   
+
 </body>
 
-</html> 
+</html>
+
+<!-- <button class="buttonClass" id="buttonID" onclick="startButton(), initLevel()"><img src="img/design/start.png" alt=""> -->

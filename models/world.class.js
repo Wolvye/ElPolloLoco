@@ -17,7 +17,6 @@ class World {
     hitChicken_Sound = new Audio('audio/glass.mp3');
     gameOver_Sound = new Audio('audio/gameOver.mp3');
     onehit = false;
-
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -25,10 +24,14 @@ class World {
         this.keyboard = keyboard;
         this.setWorld();
         this.run();
+        this.resetOnehit();
     }
+
     setWorld() {
         this.character.world = this;
     }
+   
+
     run() {
         this.stopRunIntervallID = setInterval(() => {
             this.checkCollisions();
@@ -38,7 +41,7 @@ class World {
             this.hitChicken();
             this.hitChickenboss();
             this.gameOver();
-
+           
             ;
         }, 50);
     }
@@ -67,24 +70,30 @@ class World {
             });
         });
     }
-    
+    resetOnehit() {
+        setInterval(() => {
+            if (this.onehit==true) {
+                this.onehit = false; 
+            }
+            
+        }, 2000);
+    }
     hitChickenboss() {
         this.level.enemies.forEach((Endboss) => {
             this.throwableObjects.forEach((bottle) => {
-        
+
                 if (bottle.isColliding(Endboss) && !Endboss.isDead() && this.onehit == false) {
                     this.onehit = true;
                     Endboss.hitBoss();
                     console.log("hat noch energie:", Endboss.energy);
                     Endboss.playAnimation(Endboss.IMAGES_HURT_BOSS);
                     Endboss.animate();
-                    
+                    this.hitChicken_Sound.play();
                 } else if (Endboss.isDead()) {
                     console.log("ueberlebt mit:", Endboss.energy);
-                    this.hitChicken_Sound.play();
-                    clearInterval(Endboss.animateIntervallIDBoss);
-                    clearInterval(Endboss.animateIntervallIDBoss2);
-                    // playAnimation(Endboss.IMAGES_DEAD_BOSS);
+                    clearInterval(enemy.Endboss.animateIntervallIDBoss);
+                    clearInterval(enemy.animateIntervallIDBoss2);
+                    playAnimation(enemy.IMAGES_DEAD_BOSS);
                 }
             });
         });
@@ -93,8 +102,9 @@ class World {
     gameOver() {
         if (this.character.energy == 0)
             clearInterval(world.stopRunIntervallID);
-            //this.loadImage('img/9_intro_outro_screens/game_over/game over!.png')
-            //this.gameOver_Sound.play();
+        document.getElementById('gameOverID').classList.add('d-inline');
+        
+        //this.gameOver_Sound.play();
 
     };
 

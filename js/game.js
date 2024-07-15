@@ -4,15 +4,21 @@ let keyboard = new Keyboard();
 
 
 
+
+
 function init() {
+
     initLevel();
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
     bindButtons();
-
-
-    
+   
 }
+
+
+
+
+
 function bindButtons() {
 
     document.getElementById('leftButton').addEventListener('touchstart', (e) => {
@@ -52,9 +58,9 @@ function bindButtons() {
         keyboard.SPACE = false;
     });
 }
-   
-        
-   
+
+
+
 window.addEventListener("keydown", (event) => {
     if (event.keyCode == 39) {
         keyboard.RIGHT = true;
@@ -71,7 +77,7 @@ window.addEventListener("keydown", (event) => {
     if (event.keyCode == 32) {
         keyboard.SPACE = true;
     }
-    
+
 });
 
 window.addEventListener("keyup", (event) => {
