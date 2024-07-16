@@ -8,7 +8,7 @@ class MovableObject extends DrawableObject {
     lastHit = 0;
     fullSalsa = 100;
     salsaEnergy =0;
-    
+    characterX;
 
     offset = {
         top: 0,

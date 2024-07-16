@@ -43,7 +43,7 @@ class Endboss extends MovableObject {
 
     ];
     hadFirstContact = false;
-    win_sound= new Audio('audio/win.mp3');
+    win_sound = new Audio('audio/win.mp3');
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -51,57 +51,56 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_HURT_BOSS);
         this.x = 2300;
         this.animate();
+       
     }
     animate() {
         let move = false;
-        // let i = 0;
-        // setInterval(() => {
-        //     this.playAnimation(this.IMAGES_ANIMATE_ENDBOSS)
-        //     i++;
-        //     if (world.charakter.x > 2500 && !hadFirstContact) {
-        //         i = 0;
-        //         hadFirstContact = true;
-        //     }
+        let i = 0;
+        setInterval(() => {
+            i++;
+            if (this.charakterX > 2500 && !hadFirstContact) {
+                this.playAnimation(this.IMAGES_ANIMATE_ENDBOSS)
+                i = 0;
+                hadFirstContact = true;
+            }
+        }, 150);
 
-
-        // this.moveLeft();
         this.animateIntervallIDBoss = setInterval(() => {
             if (this.energy > 0) {
-               move=true;
+                move = true;
                 this.playAnimation(this.IMAGES_WALKING);
             } else if (this.energy <= 0) {
                 this.playAnimationOnce(this.IMAGES_DEAD_BOSS);
                 clearInterval(this.animateIntervallIDBoss);
-                move=false;
+                move = false;
                 this.win_sound.play();
-                
-                this.height=480;
-                this.width=720;
-                this.x = world.character.x-100;
-                this.y=0;
+                this.height = 480;
+                this.width = 720;
+                this.x = world.character.x - 100;
+                this.y = 0;
                 this.loadImage('img/9_intro_outro_screens/win/win_2.png');
+                clearAllIntervals();
+            } this.win_sound.volume = 0.1;
 
-            }this.win_sound.volume=0.1;
-            
         }, 300);
-       
+
         setInterval(() => {
             if (move == true) {
                 this.moveLeft();
-            } 
-        }, 1000 / 240); 
-        }
+            }
+        }, 1000 / 240);
+    }
 
 
-    // }, 150);
+
 
 
     moveLeft() {
         this.x -= this.speed;
     }
 
-   
 
+  
 
 
 }

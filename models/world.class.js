@@ -18,6 +18,8 @@ class World {
     gameOver_Sound = new Audio('audio/gameOver.mp3');
     background_Sound = new Audio('audio/backgroundMusic.mp3');
     onehit = false;
+    
+
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -26,25 +28,34 @@ class World {
         this.setWorld();
         this.run();
         this.resetOnehit();
+        this.stopGame();
     }
 
-    musikBox(){
+    musikBox() {
         setInterval(() => {
-            if(musik == true){
+            if (musik == true) {
                 this.background_Sound.play();
-            }this.background_Sound.muted();
+            } this.background_Sound.muted();
 
         }, 1000);
- 
+
 
     }
     setWorld() {
         this.character.world = this;
+        this.level.enemies.forEach((enemy) => {
+            enemy.characterX = this.character.x;
+        });
+
     }
-   
+    stopGame() {
+       // intervallArray.forEach(clearInterval);
+
+    }
 
     run() {
         this.stopRunIntervallID = setInterval(() => {
+          
             this.checkCollisions();
             this.checkThrowObjects();
             this.checkCollectSalsa();
@@ -52,7 +63,7 @@ class World {
             this.hitChicken();
             this.hitChickenboss();
             this.gameOver();
-           
+
             ;
         }, 50);
     }
@@ -83,10 +94,10 @@ class World {
     }
     resetOnehit() {
         setInterval(() => {
-            if (this.onehit==true) {
-                this.onehit = false; 
+            if (this.onehit == true) {
+                this.onehit = false;
             }
-            
+
         }, 2000);
     }
     hitChickenboss() {
@@ -100,21 +111,19 @@ class World {
                     Endboss.playAnimation(Endboss.IMAGES_HURT_BOSS);
                     Endboss.animate();
                     this.hitChicken_Sound.play();
-                // } else if (Endboss.isDead()) {
-                //     console.log("ueberlebt mit:", Endboss.energy);
-                //     clearInterval(this.level.enemies[6].animateIntervallIDBoss);
-                //     clearInterval(this.level.enemies[6].animateIntervallIDBoss2);
-                //    // playAnimation(this.level.enemies[6].IMAGES_DEAD_BOSS);
+               
                 }
             });
         });
     };
 
     gameOver() {
-        if (this.character.energy == 0)
-            clearInterval(world.stopRunIntervallID);
-        document.getElementById('gameOverID').classList.add('d-inline');
+        if (this.character.energy == 0){
+            clearAllIntervals();
+        }
+    
         
+
         //this.gameOver_Sound.play();
 
     };
