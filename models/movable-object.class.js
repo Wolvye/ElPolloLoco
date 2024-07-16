@@ -1,5 +1,5 @@
 class MovableObject extends DrawableObject {
-  
+
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
@@ -7,7 +7,7 @@ class MovableObject extends DrawableObject {
     energy = 100;
     lastHit = 0;
     fullSalsa = 100;
-    salsaEnergy =0;
+    salsaEnergy = 0;
     characterX;
 
     offset = {
@@ -34,7 +34,6 @@ class MovableObject extends DrawableObject {
         }
     }
 
-
     moveRight() {
         this.x += this.speed;
     }
@@ -43,8 +42,6 @@ class MovableObject extends DrawableObject {
         this.x -= this.speed;
 
     }
-
-
 
     isColliding(mo) {
         return (
@@ -65,11 +62,13 @@ class MovableObject extends DrawableObject {
             const path = images[index];
             this.img = this.imgCache[path];
         }
-      
+
     }
+
     jump() {
         this.speedY = 30;
     }
+
     hit() {
         this.energy -= 20;
         if (this.energy < 0) {
@@ -78,6 +77,7 @@ class MovableObject extends DrawableObject {
             this.lastHit = new Date().getTime();
         }
     }
+
     hitBoss() {
         this.energy -= 34;
         if (this.energy < 0) {
@@ -96,11 +96,12 @@ class MovableObject extends DrawableObject {
             this.fullSalsa = new Date().getTime();
         }
     }
-  
+
     isDead() {
         return this.energy == 0;
 
     }
+
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit; //differenz in ms
         timepassed = timepassed / 1000;

@@ -1,11 +1,24 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let soundMute = true;
 
-
+function muteSounds() {
+    // soundMute = soundMute ? false : true;
+    // soundMute = !soundMute;
+    let buttonImage = document.querySelector('#soundButton img');
+    if (soundMute) {
+        soundMute = false;
+        buttonImage.src = 'img/design/soundON.png';
+    } else {
+        soundMute = true;
+        buttonImage.src = 'img/design/soundOFF.png';
+    }
+}
 
 function clearAllIntervals() {
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
+    
 }
 
 function init() {
@@ -14,15 +27,14 @@ function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
     bindButtons();
-   
 }
 
-function startButton(){
+function startButton() {
     document.getElementById('startScreenID').classList.add('d-none');
     init()
 }
 
-function gameOverScreen(){
+function gameOverScreen() {
     document.getElementById('gameOverID').classList.add('d-inline');
 }
 

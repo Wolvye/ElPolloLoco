@@ -53,7 +53,18 @@ class Endboss extends MovableObject {
         this.animate();
        
     }
+    endGame(){
+        setTimeout(() => {
+            this.height = 480;
+            this.width = 720;
+            this.x = world.character.x - 100;
+            this.y = 0;
+            this.loadImage('img/9_intro_outro_screens/win/win_2.png');
+            clearAllIntervals();
+        }, 2000);
+    }
     animate() {
+        this.win_sound.volume = 0.1;
         let move = false;
         let i = 0;
         setInterval(() => {
@@ -73,14 +84,15 @@ class Endboss extends MovableObject {
                 this.playAnimationOnce(this.IMAGES_DEAD_BOSS);
                 clearInterval(this.animateIntervallIDBoss);
                 move = false;
-                this.win_sound.play();
-                this.height = 480;
-                this.width = 720;
-                this.x = world.character.x - 100;
-                this.y = 0;
-                this.loadImage('img/9_intro_outro_screens/win/win_2.png');
-                clearAllIntervals();
-            } this.win_sound.volume = 0.1;
+                if (soundMute) {
+                    this.win_sound.muted = true;
+                } else {
+                    this.win_sound.muted = false;
+                    this.win_sound.play();
+                }
+               
+                this.endGame();
+            } 
 
         }, 300);
 

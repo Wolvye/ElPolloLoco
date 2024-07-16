@@ -20,7 +20,7 @@ class Chicken extends MovableObject {
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
     ]
     chicken_sound = new Audio('audio/chicken.mp3');
-    
+
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.x = 200 + Math.random() * 3000;  //die Chicken starten dadurch an unterschiedlichen stellen
@@ -33,16 +33,18 @@ class Chicken extends MovableObject {
 
 
     animate() {
-      //  this.chicken_sound.volume=0.01;
+        this.chicken_sound.volume=0.01;
         this.animateIntervallID = setInterval(() => {
-            
             this.moveLeft();
-        //    this.chicken_sound.play();
+            if (soundMute) {
+                this.chicken_sound.muted = true;
+            } else {
+                this.chicken_sound.muted = false;
+                this.chicken_sound.play();
+            }
         }, 1000 / 60)
-    
-        this.animateIntervallID2 = setInterval(() => {
-          
 
+        this.animateIntervallID2 = setInterval(() => {
             this.playAnimation(this.IMAGES_WALKING);
         }, 200)
 

@@ -18,7 +18,7 @@ class World {
     gameOver_Sound = new Audio('audio/gameOver.mp3');
     background_Sound = new Audio('audio/backgroundMusic.mp3');
     onehit = false;
-    
+
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -28,19 +28,11 @@ class World {
         this.setWorld();
         this.run();
         this.resetOnehit();
-        this.stopGame();
-    }
-
-    musikBox() {
-        setInterval(() => {
-            if (musik == true) {
-                this.background_Sound.play();
-            } this.background_Sound.muted();
-
-        }, 1000);
-
 
     }
+
+
+
     setWorld() {
         this.character.world = this;
         this.level.enemies.forEach((enemy) => {
@@ -48,14 +40,10 @@ class World {
         });
 
     }
-    stopGame() {
-       // intervallArray.forEach(clearInterval);
-
-    }
 
     run() {
         this.stopRunIntervallID = setInterval(() => {
-          
+
             this.checkCollisions();
             this.checkThrowObjects();
             this.checkCollectSalsa();
@@ -67,13 +55,20 @@ class World {
             ;
         }, 50);
     }
+
     checkThrowObjects() {
+        this.throwBottle_Sound.volume=0.2;
         if (this.keyboard.SPACE && this.salsaChache !== 0) {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
             this.salsaChache -= 20;
             this.salsaBar.setPercentage(this.salsaChache);
-            this.throwBottle_Sound.play();
+            if (soundMute) {
+                this.throwBottle_Sound.muted = true;
+            } else {
+                this.throwBottle_Sound.muted = false;
+                this.throwBottle_Sound.play();
+            }
         }
     }
 
@@ -92,6 +87,7 @@ class World {
             });
         });
     }
+
     resetOnehit() {
         setInterval(() => {
             if (this.onehit == true) {
@@ -100,6 +96,7 @@ class World {
 
         }, 2000);
     }
+
     hitChickenboss() {
         this.level.enemies.forEach((Endboss) => {
             this.throwableObjects.forEach((bottle) => {
@@ -111,23 +108,18 @@ class World {
                     Endboss.playAnimation(Endboss.IMAGES_HURT_BOSS);
                     Endboss.animate();
                     this.hitChicken_Sound.play();
-               
+
                 }
             });
         });
     };
 
     gameOver() {
-        if (this.character.energy == 0){
+        if (this.character.energy == 0) {
             clearAllIntervals();
         }
-    
-        
-
         //this.gameOver_Sound.play();
-
     };
-
 
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
@@ -146,8 +138,6 @@ class World {
             }
         });
     }
-
-
 
     checkCollectSalsa() {
         this.level.bottles.forEach((salsa, i) => {
@@ -202,7 +192,6 @@ class World {
         requestAnimationFrame(function () {
             self.draw();
         });
-
     };
 
     addObjectsToMap(objects) {

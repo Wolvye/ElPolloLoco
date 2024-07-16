@@ -57,26 +57,43 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_HURT);
         this.animate();
         this.apllyGravity();
+        
     }
-    
+
     animate() {
         setInterval(() => {
             this.walking_sound.pause();
 
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
-                this.walking_sound.play();
+                if (soundMute) {
+                    this.walking_sound.muted = true;
+                } else {
+                    this.walking_sound.muted = false;
+                    this.walking_sound.play();
+                }
                 this.otherDirection = false;
             }
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.moveLeft();
-                this.walking_sound.play();
+                if (soundMute) {
+                    this.walking_sound.muted = true;
+                } else {
+                    this.walking_sound.muted = false;
+                    this.walking_sound.play();
+                }
                 this.otherDirection = true;
             }
 
             if (this.world.keyboard.UP && !this.isAboveGround()) {
                 this.jump();
-                this.jump_sound.play();
+                if (soundMute) {
+                    this.jump_sound.muted = true;
+                } else {
+                    this.jump_sound.muted = false;
+                    this.jump_sound.play();
+                }
+
             }
 
             this.world.camera_x = -this.x + 100;
@@ -102,6 +119,17 @@ class Character extends MovableObject {
                 }
             }
         }, 50);
+    }
+    gameOver(){
+        if(energy <=0){
+        setTimeout(() => {
+            this.height = 480;
+            this.width = 720;
+            this.x = world.character.x ;
+            this.y = 0;
+            this.loadImage('img/9_intro_outro_screens/game_over/game over!.png');
+            clearAllIntervals();
+        }, 2000);}
     }
 
 }

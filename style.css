@@ -102,12 +102,17 @@ canvas {
 
     .panel {
         border: 3px solid black;
-        height: auto;
-        width: 600px;
+        height: 100vh;
+        align-items: bottom;
         display: flex;
         justify-content: space-between;
         position: absolute;
-        margin-top: 430px;
+        align-items:flex-end;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        
     }
 
     .buttonsClassLeft {
@@ -152,12 +157,14 @@ canvas {
 
     panel {
         border: 3px solid black;
-        height: 30px;
+        height: 100vh;
         width: auto;
         display: flex;
         justify-content: space-between;
         position: absolute;
-        margin-top: 430px;
+        align-items: bottom;
+
+    
     }
 
     .buttonsClassLeft {
@@ -201,12 +208,17 @@ canvas {
 
     panel {
         border: 3px solid black;
-        height: 30px;
+        height: 100vh;
         width: auto;
         display: flex;
         justify-content: space-between;
         position: absolute;
-        margin-top: 430px;
+        align-items:flex-end;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+       
     }
 
     .buttonsClassLeft {
