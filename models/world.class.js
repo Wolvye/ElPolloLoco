@@ -16,6 +16,7 @@ class World {
     deadChicken_Sound = new Audio('audio/deadChicken.mp3');
     hitChicken_Sound = new Audio('audio/glass.mp3');
     gameOver_Sound = new Audio('audio/gameOver.mp3');
+    background_Sound = new Audio('audio/backgroundMusic.mp3');
     onehit = false;
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -27,6 +28,16 @@ class World {
         this.resetOnehit();
     }
 
+    musikBox(){
+        setInterval(() => {
+            if(musik == true){
+                this.background_Sound.play();
+            }this.background_Sound.muted();
+
+        }, 1000);
+ 
+
+    }
     setWorld() {
         this.character.world = this;
     }
@@ -89,11 +100,11 @@ class World {
                     Endboss.playAnimation(Endboss.IMAGES_HURT_BOSS);
                     Endboss.animate();
                     this.hitChicken_Sound.play();
-                } else if (Endboss.isDead()) {
-                    console.log("ueberlebt mit:", Endboss.energy);
-                    clearInterval(enemy.Endboss.animateIntervallIDBoss);
-                    clearInterval(enemy.animateIntervallIDBoss2);
-                    playAnimation(enemy.IMAGES_DEAD_BOSS);
+                // } else if (Endboss.isDead()) {
+                //     console.log("ueberlebt mit:", Endboss.energy);
+                //     clearInterval(this.level.enemies[6].animateIntervallIDBoss);
+                //     clearInterval(this.level.enemies[6].animateIntervallIDBoss2);
+                //    // playAnimation(this.level.enemies[6].IMAGES_DEAD_BOSS);
                 }
             });
         });

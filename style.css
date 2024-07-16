@@ -52,17 +52,20 @@ canvas {
     background-color: black;
 
 }
-.d-inline{
+
+.d-inline {
     display: inline;
 }
+
 .d-none {
     display: none;
 }
-.panel{
+
+.panel {
     display: none;
 }
 
-.gameOver{
+.gameOver {
     background-image: url('img/9_intro_outro_screens/game_over/game over!.png');
     height: 500px;
     width: 750px;
@@ -83,6 +86,10 @@ canvas {
         width: 100%;
     }
 
+    footer {
+        display: none;
+    }
+
     h1 {
         display: none;
     }
@@ -96,7 +103,7 @@ canvas {
     .panel {
         border: 3px solid black;
         height: auto;
-        width: 700px;
+        width: 600px;
         display: flex;
         justify-content: space-between;
         position: absolute;
@@ -114,9 +121,15 @@ canvas {
         gap: 25px;
         justify-content: flex-end;
     }
+
+    body {
+        background-image: none;
+    }
 }
+@media only screen and (max-width:480px) {
+    
 
-
+}
 
 @media only screen and (max-height:480px) {
     canvas {
@@ -127,30 +140,92 @@ canvas {
         display: none;
     }
 
+    footer {
+        display: none;
+    }
+
     .startScreen {
         width: 100%;
         height: 100vh;
         margin-top: 0;
     }
+
     panel {
         border: 3px solid black;
-        height: auto;
-        width: 700px;
+        height: 30px;
+        width: auto;
         display: flex;
         justify-content: space-between;
         position: absolute;
         margin-top: 430px;
     }
-    
+
     .buttonsClassLeft {
         border: 3px solid Green;
         gap: 25px;
-    
     }
-    
+
     .buttonclassRight {
         border: 3px solid blue;
         gap: 25px;
         justify-content: flex-end;
+    }
+
+    footer {
+        display: none;
+    }
+
+    body {
+        background-image: none;
+    }
+}
+
+@media only screen and (max-height:400px) {
+    canvas {
+        height: 100vh;
+    }
+
+    h1 {
+        display: none;
+    }
+
+    footer {
+        display: none;
+    }
+
+    .startScreen {
+        width: 100%;
+        height: 100vh;
+        margin-top: 0;
+    }
+
+    panel {
+        border: 3px solid black;
+        height: 30px;
+        width: auto;
+        display: flex;
+        justify-content: space-between;
+        position: absolute;
+        margin-top: 430px;
+    }
+
+    .buttonsClassLeft {
+        border: 3px solid Green;
+        gap: 25px;
+
+    }
+
+    .buttonclassRight {
+        border: 3px solid blue;
+        gap: 25px;
+        justify-content: flex-end;
+    }
+
+    footer {
+        display: none;
+    }
+
+    body {
+        background-image: none;
     }
 }

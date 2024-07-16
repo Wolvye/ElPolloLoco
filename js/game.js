@@ -15,9 +15,14 @@ function init() {
    
 }
 
+function startButton(){
+    document.getElementById('startScreenID').classList.add('d-none');
+    init()
+}
 
-
-
+function gameOverScreen(){
+    document.getElementById('gameOverID').classList.add('d-inline');
+}
 
 function bindButtons() {
 

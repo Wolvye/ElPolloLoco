@@ -8,7 +8,8 @@ class Endboss extends MovableObject {
         right: 20,
         bottom: 20
     };
-
+    animateIntervallIDBoss;
+    animateIntervallIDBoss2;
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/2_alert/G9.png',
         'img/4_enemie_boss_chicken/2_alert/G10.png',
@@ -41,7 +42,8 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/2_alert/G12.png',
 
     ];
-    hadFirstContact=false;
+    hadFirstContact = false;
+    win_sound= new Audio('audio/win.mp3');
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -51,6 +53,7 @@ class Endboss extends MovableObject {
         this.animate();
     }
     animate() {
+        let move = false;
         // let i = 0;
         // setInterval(() => {
         //     this.playAnimation(this.IMAGES_ANIMATE_ENDBOSS)
@@ -59,16 +62,46 @@ class Endboss extends MovableObject {
         //         i = 0;
         //         hadFirstContact = true;
         //     }
-            this.moveLeft();
-            this.animateIntervallIDBoss = setInterval(() => {
+
+
+        // this.moveLeft();
+        this.animateIntervallIDBoss = setInterval(() => {
+            if (this.energy > 0) {
+               move=true;
                 this.playAnimation(this.IMAGES_WALKING);
-            }, 300)
-        // }, 150);
-    }
+            } else if (this.energy <= 0) {
+                this.playAnimationOnce(this.IMAGES_DEAD_BOSS);
+                clearInterval(this.animateIntervallIDBoss);
+                move=false;
+                this.win_sound.play();
+                
+                this.height=480;
+                this.width=720;
+                this.x = world.character.x-100;
+                this.y=0;
+                this.loadImage('img/9_intro_outro_screens/win/win_2.png');
+
+            }this.win_sound.volume=0.1;
+            
+        }, 300);
+       
+        setInterval(() => {
+            if (move == true) {
+                this.moveLeft();
+            } 
+        }, 1000 / 240); 
+        }
+
+
+    // }, 150);
+
 
     moveLeft() {
-        this.animateIntervallIDBoss2 = setInterval(() => {
-            this.x -= this.speed;
-        }, 1000 / 240);
+        this.x -= this.speed;
     }
+
+   
+
+
+
 }
