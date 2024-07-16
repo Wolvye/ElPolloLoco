@@ -9,6 +9,7 @@ class Character extends MovableObject {
         right: 40,
         bottom: 10
     };
+    gameOver_Sound = new Audio('audio/gameOver.mp3');
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -103,6 +104,7 @@ class Character extends MovableObject {
         setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
+                this.gameOver();
 
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
@@ -120,17 +122,25 @@ class Character extends MovableObject {
             }
         }, 50);
     }
-    gameOver(){
-        if(energy <=0){
-        setTimeout(() => {
-            this.height = 480;
-            this.width = 720;
-            this.x = world.character.x ;
+  
+    gameOver() {
+        this.gameOver_Sound.volume = 0.3;
+            this.x -= 150;
             this.y = 0;
+            this.height = 480;
+            this.width = 780;
+            this.otherDirection=false;
             this.loadImage('img/9_intro_outro_screens/game_over/game over!.png');
             clearAllIntervals();
-        }, 2000);}
-    }
+            if (soundMute) {
+                this.gameOver_Sound = true;
+            } else {
+                this.gameOver_Sound.muted = false;
+                this.gameOver_Sound.play();
+            }
 
-}
+        }
+
+    };
+
 

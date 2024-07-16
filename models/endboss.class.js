@@ -63,18 +63,19 @@ class Endboss extends MovableObject {
             clearAllIntervals();
         }, 2000);
     }
+  
     animate() {
         this.win_sound.volume = 0.1;
         let move = false;
         let i = 0;
         setInterval(() => {
             i++;
-            if (this.charakterX > 2500 && !hadFirstContact) {
+            if (this.charakterX > 2000 && !hadFirstContact) { 
                 this.playAnimation(this.IMAGES_ANIMATE_ENDBOSS)
                 i = 0;
                 hadFirstContact = true;
             }
-        }, 150);
+        }, 1500);
 
         this.animateIntervallIDBoss = setInterval(() => {
             if (this.energy > 0) {

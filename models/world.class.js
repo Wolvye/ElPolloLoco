@@ -15,8 +15,8 @@ class World {
     throwBottle_Sound = new Audio('audio/throw.mp3');
     deadChicken_Sound = new Audio('audio/deadChicken.mp3');
     hitChicken_Sound = new Audio('audio/glass.mp3');
-    gameOver_Sound = new Audio('audio/gameOver.mp3');
     background_Sound = new Audio('audio/backgroundMusic.mp3');
+
     onehit = false;
 
 
@@ -28,36 +28,48 @@ class World {
         this.setWorld();
         this.run();
         this.resetOnehit();
+        // this.runSlow();
 
     }
-
-
 
     setWorld() {
         this.character.world = this;
         this.level.enemies.forEach((enemy) => {
             enemy.characterX = this.character.x;
+            this.playMusik()
         });
+    }
 
+    // runSlow() {
+    //     this.stopRunIntervallID3 = setInterval(() => {
+    //         this.checkThrowObjects();
+
+
+    //     }, 500);
+    // }
+
+    playMusik() {
+        if (soundMute) {
+            this.background_Sound.muted = true;
+        } else {
+            this.background_Sound.muted = false;
+            this.background_Sound.play();
+        }
     }
 
     run() {
         this.stopRunIntervallID = setInterval(() => {
-
             this.checkCollisions();
-            this.checkThrowObjects();
             this.checkCollectSalsa();
             this.checkCollectCoin();
             this.hitChicken();
             this.hitChickenboss();
-            this.gameOver();
-
-            ;
-        }, 50);
+            this.checkThrowObjects();
+        }, 1000 / 20);
     }
 
     checkThrowObjects() {
-        this.throwBottle_Sound.volume=0.2;
+        this.throwBottle_Sound.volume = 0.2;
         if (this.keyboard.SPACE && this.salsaChache !== 0) {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
@@ -76,13 +88,19 @@ class World {
         this.level.enemies.forEach((enemy) => {
             this.throwableObjects.forEach((bottle) => {
                 if (bottle.isColliding(enemy) && !(enemy instanceof Endboss)) {
-                    this.deadChicken_Sound.play();
-                    this.hitChicken_Sound.play();
+                    if (soundMute) {
+                        this.deadChicken_Sound.muted = true;
+                        this.hitChicken_Sound.muted = true;
+                    } else {
+                        this.deadChicken_Sound.muted = false;
+                        this.hitChicken_Sound.muted = false;
+                        this.deadChicken_Sound.play();
+                        this.hitChicken_Sound.play();
+                    }
                     enemy.offset = 100;
                     enemy.playAnimation(enemy.IMAGES_DEAD_CHICKI);
                     clearInterval(enemy.animateIntervallID);
                     clearInterval(enemy.animateIntervallID2);
-
                 }
             });
         });
@@ -104,21 +122,20 @@ class World {
                 if (bottle.isColliding(Endboss) && !Endboss.isDead() && this.onehit == false) {
                     this.onehit = true;
                     Endboss.hitBoss();
-                    console.log("hat noch energie:", Endboss.energy);
+
                     Endboss.playAnimation(Endboss.IMAGES_HURT_BOSS);
                     Endboss.animate();
-                    this.hitChicken_Sound.play();
+                    if (soundMute) {
+                        this.hitChicken_Sound.muted = true;
+                    } else {
+                        this.hitChicken_Sound.muted = false;
+                        this.hitChicken_Sound.play();
+                    }
+
 
                 }
             });
         });
-    };
-
-    gameOver() {
-        if (this.character.energy == 0) {
-            clearAllIntervals();
-        }
-        //this.gameOver_Sound.play();
     };
 
     checkCollisions() {
@@ -129,7 +146,12 @@ class World {
                     this.statusBar.setPercentage(this.character.energy);
                 } else {
                     enemy.isColliding(this.character);
-                    this.deadChicken_Sound.play();
+                    if (soundMute) {
+                        this.deadChicken_Sound = true;
+                    } else {
+                        this.deadChicken_Sound.muted = false;
+                        this.deadChicken_Sound.play();
+                    }
                     enemy.offset = 100;
                     enemy.playAnimation(enemy.IMAGES_DEAD_CHICKI);
                     clearInterval(enemy.animateIntervallID);
