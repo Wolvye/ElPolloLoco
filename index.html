@@ -16,6 +16,7 @@
     <script src="models/movable-object.class.js"></script>
     <script src="models/character.class.js"></script>
     <script src="models/chicken.class.js"></script>
+    <script src="models/small-chicken.class.js"></script>
     <script src="models/cloud.class.js"></script>
     <script src="models/status-bar.class.js"></script>
     <script src="models/salsa-bar.class.js"></script>
@@ -33,19 +34,18 @@
 </head>
 
 <body>
-
-    <h1>El Pollo Loco <br>
-        Click to Start</h1>
+<div class="turn " id="turnID"> <h1>PLEASE TURN <br>YOUR <br>MOBIL DIVICE!</h1></div>
+    <h1 class="h1Class">El Pollo Loco <br>
+        <div class="clickHereClass" onclick="init()">>>Click here<<</div> to Start</h1>
 
     <div class="topPanelClass" id="topPanelID"><button onclick="muteSounds()" id="soundButton"><img
                 src="img/design/soundOFF.png" alt=""></button>
-        <div onclick="init()" class="newStartButton" id="newStartButtonID"> <img src="img/design/restart.png"
+        <div  class="newStartButton" id="newStartButtonID"> <img onclick="init()" src="img/design/restart.png"
                 alt="restart Button"> </div>
-        <!-- <button onclick="fullscreen()"><img src="img/design/fullscreen.png" alt="fullscreenIcon"></button> -->
     </div>
 
-    <div id="fullscreenID"><canvas id="canvas" width="720" height="480"></canvas>
-        <div class="elManuel" id="elManuelID">Arrow Buttons to move <br> Space to throw Salsa <br> Up to Jump</div>
+    <div  class="canvasClass" id="fullscreenID"><canvas id="canvas" width="720" height="480"></canvas>
+        <div class="elManuel" id="elManuelID">Arrow Buttons to move <br> D to throw Salsa <br> Up to Jump</div>
     </div>
 
     <panel class="panel">

@@ -2,7 +2,6 @@
  * Represents a salsa bar status indicator, extending DrawableObject.
  */
 class SalsaBar extends DrawableObject {
-    // Array of image paths representing salsa bar percentages
     IMAGES_SALSA = [
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/0.png',
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/20.png',
@@ -16,7 +15,6 @@ class SalsaBar extends DrawableObject {
 
     constructor() {
         super();
-        // Load images and set initial position and dimensions
         this.loadImages(this.IMAGES_SALSA);
         this.x = 50;
         this.y = 50;

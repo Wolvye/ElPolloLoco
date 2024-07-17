@@ -27,8 +27,8 @@ class Keyboard {
     DOWN = false;
 
     /**
-     * Indicates if the spacebar key is pressed.
+     * Indicates if the D key is pressed.
      * @type {boolean}
      */
-    SPACE = false;
+    D = false;
 }

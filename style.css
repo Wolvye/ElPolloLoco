@@ -4,7 +4,7 @@ body {
     align-items: center;
     background-image: url("img/design/blueBackground.jpg");
     background-size: cover;
-    overflow: hidden;
+
     margin: 0;
     background-repeat: no-repeat;
     background-color: black;
@@ -22,6 +22,8 @@ canvas {
     border: 15px solid black;
     border-radius: 12px;
     display: block;
+    background-image: url('img/9_intro_outro_screens/start/startscreen_1.png');
+    background-size: 100% 100%;
 }
 
 .manual img {
@@ -37,11 +39,29 @@ canvas {
     font-size: xx-large;
     color: white;
     display: none;
-    cursor: pointer;
-    ;
 }
 
-.startScreen {
+.turn {
+    height: 100vh;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: black;
+    background-image: url("img/design/blueBackground.jpg");
+    display: none;
+}
+
+
+/* .startScreen {
     background-image: url('img/9_intro_outro_screens/start/startscreen_1.png');
     height: 500px;
     width: 750px;
@@ -53,7 +73,7 @@ canvas {
     background-position: center;
     background-repeat: no-repeat;
     background-color: black;
-}
+} */
 
 .d-inline {
     display: inline;
@@ -65,6 +85,14 @@ canvas {
 
 .panel {
     display: none;
+}
+
+.topPanelClass {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    z-index: auto;
+
 }
 
 footer {
@@ -87,56 +115,46 @@ footer a:hover {
     color: red;
 }
 
-@media only screen and (max-width:720px) {
-    canvas {
-        width: 100%;
+
+.clickHereClass{
+    cursor: pointer;
+}
+
+@media only screen and (orientation:portrait) and (max-width:751px) {
+    .turn {
+        display: flex;
+    }
+    .turn h1{
+        font-size: 10vw;
+    }
+    .startScreen{
+        display: none;
+    }
+    footer{
+        display: none;
+    }
+    .topPanelClass{
+        display: none;
+    }  
+    .h1Class{
+        display: none;
+    }
+    .canvasClass{
+        display: none;
+    }
+    
+}
+
+@media only screen and (max-height:780px) {
+    h1 {
+        display: none;
     }
 
     footer {
         display: none;
     }
 
-    h1 {
-        display: none;
-    }
-
-    .startScreen {
-        width: 100%;
-        height: 100vh;
-        margin-top: 0;
-    }
-
-    .panel {
-        border: 3px solid black;
-        height: 100vh;
-        align-items: bottom;
-        display: flex;
-        justify-content: space-between;
-        position: absolute;
-        align-items: flex-end;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-    }
-
-    .buttonsClassLeft {
-        border: 3px solid Green;
-        gap: 25px;
-    }
-
-    .buttonclassRight {
-        border: 3px solid blue;
-        gap: 25px;
-        justify-content: flex-end;
-    }
-
-    body {
-        background-image: none;
-    }
 }
-
-
 
 @media only screen and (max-height:480px) {
     canvas {
@@ -158,22 +176,33 @@ footer a:hover {
     }
 
     .panel {
-        border: 3px solid black;
-        height: 100vh;
+        height: 10;
         width: auto;
         display: flex;
         justify-content: space-between;
         position: absolute;
-        align-items: bottom;
+        align-items: flex-start;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .topPanelClass {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
     }
 
     .buttonsClassLeft {
-        border: 3px solid Green;
         gap: 25px;
     }
 
     .buttonclassRight {
-        border: 3px solid blue;
         gap: 25px;
         justify-content: flex-end;
     }
@@ -205,7 +234,7 @@ footer a:hover {
         height: 100vh;
         margin-top: 0;
     }
-
+  
     .panel {
         border: 3px solid black;
         height: 100vh;
@@ -221,12 +250,10 @@ footer a:hover {
     }
 
     .buttonsClassLeft {
-        border: 3px solid Green;
         gap: 25px;
     }
 
     .buttonclassRight {
-        border: 3px solid blue;
         gap: 25px;
         justify-content: flex-end;
     }

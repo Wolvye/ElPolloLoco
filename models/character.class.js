@@ -173,16 +173,13 @@ class Character extends MovableObject {
      * Start the animation loops.
      */
     animate() {
-        // Animation loop for movement and sound
+      
         setInterval(() => {
-            // Pause walking sound by default
             this.walking_sound.pause();
 
-            // Move right if right arrow key is pressed and within level bounds
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
 
-                // Play walking sound if not muted
                 if (soundMute) {
                     this.walking_sound.muted = true;
                 } else {
@@ -190,15 +187,12 @@ class Character extends MovableObject {
                     this.walking_sound.play();
                 }
 
-                // Set direction flag
                 this.otherDirection = false;
             }
 
-            // Move left if left arrow key is pressed and within level bounds
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.moveLeft();
 
-                // Play walking sound if not muted
                 if (soundMute) {
                     this.walking_sound.muted = true;
                 } else {
@@ -206,15 +200,12 @@ class Character extends MovableObject {
                     this.walking_sound.play();
                 }
 
-                // Set direction flag
                 this.otherDirection = true;
             }
 
-            // Jump if up arrow key is pressed and character is on ground
             if (this.world.keyboard.UP && !this.isAboveGround()) {
                 this.jump();
 
-                // Play jump sound if not muted
                 if (soundMute) {
                     this.jump_sound.muted = true;
                 } else {
@@ -223,11 +214,9 @@ class Character extends MovableObject {
                 }
             }
 
-            // Adjust camera position based on character's x-coordinate
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
 
-        // Animation loop for state-based animations
         let currentTime = null;
         setInterval(() => {
             if (this.isDead()) {
@@ -268,7 +257,6 @@ class Character extends MovableObject {
      * Handle game over state.
      */
     gameOver() {
-        // Adjust properties for game over state
         this.gameOver_Sound.volume = 0.3;
         this.x -= 150;
         this.y = 0;
@@ -277,10 +265,8 @@ class Character extends MovableObject {
         this.otherDirection = false;
         this.loadImage('img/9_intro_outro_screens/game_over/game over!.png');
 
-        // Clear all animation intervals
         clearAllIntervals();
 
-        // Play game over sound if not muted
         if (soundMute) {
             this.gameOver_Sound = true; // Typo: Should be `this.gameOver_Sound.muted = true;`
         } else {

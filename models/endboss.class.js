@@ -140,7 +140,6 @@ class Endboss extends MovableObject {
         let move = false;
         let i = 0;
 
-        // Interval for initiating animation after a certain condition
         setInterval(() => {
             i++;
             if (this.x > 2000 && !this.hadFirstContact) {
@@ -150,7 +149,6 @@ class Endboss extends MovableObject {
             }
         }, 1500);
 
-        // Interval for main walking animation
         this.animateIntervallIDBoss = setInterval(() => {
             if (this.energy > 0) {
                 move = true;
@@ -169,7 +167,6 @@ class Endboss extends MovableObject {
             }
         }, 300);
 
-        // Interval for continuous movement
         setInterval(() => {
             if (move) {
                 this.moveLeft();

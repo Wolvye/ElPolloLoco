@@ -26,11 +26,7 @@ class Cloud extends MovableObject {
      */
     constructor() {
         super().loadImage('img/5_background/layers/4_clouds/1.png');
-
-        // Randomize starting position
         this.x = Math.random() * 5000;
-
-        // Start cloud animation
         this.animate();
     }
 
@@ -38,7 +34,6 @@ class Cloud extends MovableObject {
      * Start the cloud's animation.
      */
     animate() {
-        // Move the cloud left continuously
         setInterval(() => {
             this.moveLeft();
         }, 1000 / 60);
@@ -48,7 +43,6 @@ class Cloud extends MovableObject {
      * Move the cloud to the left based on its speed.
      */
     moveLeft() {
-        // Move left by the current speed
         this.x -= this.speed;
     }
 }

@@ -2,7 +2,6 @@
  * Represents a status bar indicating hitpoints, extending DrawableObject.
  */
 class StatusBar extends DrawableObject {
-    // Array of image paths representing hitpoint percentages
     IMAGES_HITPOINTS = [
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/20.png',
@@ -16,7 +15,6 @@ class StatusBar extends DrawableObject {
 
     constructor() {
         super();
-        // Load images and set initial position and dimensions
         this.loadImages(this.IMAGES_HITPOINTS);
         this.x = 50;
         this.y = 0;

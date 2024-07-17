@@ -1,31 +1,27 @@
-/**
- * Represents the game world with various game elements and interactions.
- */
+// Class representing the game world
 class World {
-    // Game elements and attributes
     character = new Character();
     level = Level1;
     canvas;
-    ctx; // ctx stands for context
+    ctx;
     keyboard;
     camera_x = 0;
     statusBar = new StatusBar();
     throwableObjects = [];
     salsaBar = new SalsaBar();
     coinBar = new CoinBar();
-    salsaCache = 0;
+    salsaChache = 0;
     coinCache = 0;
-    stopRunIntervalID;
-    throwBottleSound = new Audio('audio/throw.mp3');
-    deadChickenSound = new Audio('audio/deadChicken.mp3');
-    hitChickenSound = new Audio('audio/glass.mp3');
-    backgroundSound = new Audio('audio/backgroundMusic.mp3');
+    stopRunIntervallID;
+    throwBottle_Sound = new Audio('audio/throw.mp3');
+    deadChicken_Sound = new Audio('audio/deadChicken.mp3');
+    hitChicken_Sound = new Audio('audio/glass.mp3');
     onehit = false;
 
     /**
-     * Creates a new World instance with the specified canvas and keyboard input.
-     * @param {HTMLCanvasElement} canvas - The canvas element to render the game.
-     * @param {Keyboard} keyboard - The keyboard input handler for the game.
+     * Constructor for initializing the game world.
+     * @param {HTMLCanvasElement} canvas - The canvas element to draw on.
+     * @param {KeyboardHandler} keyboard - The keyboard handler for input.
      */
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -35,94 +31,92 @@ class World {
         this.setWorld();
         this.run();
         this.resetOnehit();
+        this.soundChicken();
+        this.soundThrowBottle();
+
     }
 
     /**
-     * Sets up initial configurations and associations for the game world.
+     * Sets up initial game state, including character and enemy positions.
      */
     setWorld() {
         this.character.world = this;
         this.level.enemies.forEach((enemy) => {
             enemy.characterX = this.character.x;
-            this.playMusic(); // Corrected method name
+
         });
     }
 
     /**
-     * Plays the background music with optional mute check.
-     */
-    playMusic() {
-        this.backgroundSound.volume = 0.3;
-        if (soundMute) {
-            this.backgroundSound.muted = true;
-        } else {
-            this.backgroundSound.muted = false;
-            this.backgroundSound.play();
-        }
-    }
-
-    /**
-     * Initiates the game loop to run various game logic checks at regular intervals.
+     * Main game loop that runs at an interval.
      */
     run() {
-        this.stopRunIntervalID = setInterval(() => {
+        this.stopRunIntervallID = setInterval(() => {
             this.checkCollisions();
             this.checkCollectSalsa();
             this.checkCollectCoin();
             this.hitChicken();
-            this.hitChickenboss(); // Corrected method name
+            this.hitChickenboss();
             this.checkThrowObjects();
-        }, 1000 / 20);
+
+        }, 1000 / 50);
     }
 
     /**
-     * Checks if the space key is pressed and initiates throwing a bottle object.
-     * Updates salsa cache and plays throw sound if conditions are met.
+     * Checks conditions for throwing objects and performs actions accordingly.
      */
     checkThrowObjects() {
-        this.throwBottleSound.volume = 0.2;
-        if (this.keyboard.SPACE && this.salsaCache !== 0) {
+        this.throwBottle_Sound.volume = 0.2;
+        if (this.keyboard.D && this.salsaChache !== 0) {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
-            this.salsaCache -= 20;
-            this.salsaBar.setPercentage(this.salsaCache);
-            if (soundMute) {
-                this.throwBottleSound.muted = true;
-            } else {
-                this.throwBottleSound.muted = false;
-                this.throwBottleSound.play();
-            }
+            this.salsaChache -= 20;
+            this.salsaBar.setPercentage(this.salsaChache);
+            this.soundThrowBottle();
+
         }
     }
-
+    soundThrowBottle() {
+        if (soundMute) {
+            this.throwBottle_Sound.muted = true;
+        } else {
+            this.throwBottle_Sound.muted = false;
+            this.throwBottle_Sound.play();
+        }
+    }
     /**
-     * Handles the logic for hitting chickens with thrown objects.
-     * Plays corresponding sounds and updates chicken animations upon collision.
+     * Checks for hits on regular chickens and performs actions accordingly.
      */
     hitChicken() {
         this.level.enemies.forEach((enemy) => {
             this.throwableObjects.forEach((bottle) => {
                 if (bottle.isColliding(enemy) && !(enemy instanceof Endboss)) {
-                    if (soundMute) {
-                        this.deadChickenSound.muted = true;
-                        this.hitChickenSound.muted = true;
-                    } else {
-                        this.deadChickenSound.muted = false;
-                        this.hitChickenSound.muted = false;
-                        this.deadChickenSound.play();
-                        this.hitChickenSound.play();
-                    }
+                    soundChicken();
                     enemy.offset = 100;
                     enemy.playAnimation(enemy.IMAGES_DEAD_CHICKI);
-                    clearInterval(enemy.animateIntervalID); // Corrected property name
-                    clearInterval(enemy.animateIntervalID2); // Corrected property name
+                    clearInterval(enemy.animateIntervallID);
+                    clearInterval(enemy.animateIntervallID2);
+                    clearInterval(enemy.animateIntervallID3);
                 }
             });
         });
     }
 
+    soundChicken() {
+        if (soundMute) {
+            this.deadChicken_Sound.muted = true;
+            this.hitChicken_Sound.muted = true;
+        } else {
+            this.deadChicken_Sound.muted = false;
+            this.hitChicken_Sound.muted = false;
+            this.deadChicken_Sound.play();
+            this.hitChicken_Sound.play();
+        }
+    }
+
+
     /**
-     * Resets the one-hit flag after a certain interval.
+     * Resets the onehit flag after a delay.
      */
     resetOnehit() {
         setInterval(() => {
@@ -133,8 +127,7 @@ class World {
     }
 
     /**
-     * Handles the logic for hitting the end boss chicken.
-     * Initiates boss hit action and plays corresponding sound.
+     * Checks for hits on the boss chicken and performs actions accordingly.
      */
     hitChickenboss() {
         this.level.enemies.forEach((Endboss) => {
@@ -143,12 +136,12 @@ class World {
                     this.onehit = true;
                     Endboss.hitBoss();
                     Endboss.playAnimation(Endboss.IMAGES_HURT_BOSS);
-                    Endboss.animate(); // Assuming this method exists
+                    Endboss.animate();
                     if (soundMute) {
-                        this.hitChickenSound.muted = true;
+                        this.hitChicken_Sound.muted = true;
                     } else {
-                        this.hitChickenSound.muted = false;
-                        this.hitChickenSound.play();
+                        this.hitChicken_Sound.muted = false;
+                        this.hitChicken_Sound.play();
                     }
                 }
             });
@@ -156,7 +149,7 @@ class World {
     };
 
     /**
-     * Checks collisions between character and enemies, handles corresponding actions.
+     * Checks for collisions between character and enemies.
      */
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
@@ -167,38 +160,44 @@ class World {
                 } else {
                     enemy.isColliding(this.character);
                     if (soundMute) {
-                        this.deadChickenSound = true; // Correction: should be muted
+                        this.deadChicken_Sound = true;
                     } else {
-                        this.deadChickenSound.muted = false;
-                        this.deadChickenSound.play();
+                        this.deadChicken_Sound.muted = false;
+                        this.deadChicken_Sound.play();
                     }
                     enemy.offset = 100;
-                    enemy.playAnimation(enemy.IMAGES_DEAD_CHICKI);
-                    clearInterval(enemy.animateIntervalID); // Corrected property name
-                    clearInterval(enemy.animateIntervalID2); // Corrected property name
+                    if (enemy instanceof Chicken) {
+                        enemy.playAnimation(enemy.IMAGES_DEAD_CHICKI);
+                        clearInterval(enemy.animateIntervallID);
+                        clearInterval(enemy.animateIntervallID2);
+                    } else if (enemy instanceof SmallChicken) {
+                        enemy.playAnimation(enemy.IMAGES_SMALL_CHICKEN_DEAD);
+                        clearInterval(enemy.animateIntervallID3);
+                        clearInterval(enemy.animateIntervallID4);
+                    }
                 }
             }
         });
     }
+    
 
+ 
     /**
-     * Checks for salsa collection by the character from bottles.
-     * Updates salsa cache and removes collected bottles from level.
+     * Checks for salsa bottles collected by the character.
      */
     checkCollectSalsa() {
         this.level.bottles.forEach((salsa, i) => {
-            if (this.character.isColliding(salsa) && this.salsaCache !== 100) {
+            if (this.character.isColliding(salsa) && this.salsaChache !== 100) {
                 this.character.collectSalsa();
-                this.salsaCache += 20;
-                this.salsaBar.setPercentage(this.salsaCache);
+                this.salsaChache += 20;
+                this.salsaBar.setPercentage(this.salsaChache);
                 this.level.bottles.splice(i, 1);
             }
-        });
+        })
     }
 
     /**
-     * Checks for coin collection by the character from coins.
-     * Updates coin cache and removes collected coins from level.
+     * Checks for coins collected by the character.
      */
     checkCollectCoin() {
         this.level.coins.forEach((coins, i) => {
@@ -207,11 +206,11 @@ class World {
                 this.coinBar.setPercentage(this.coinCache);
                 this.level.coins.splice(i, 1);
             }
-        });
+        })
     }
 
     /**
-     * Main draw function that renders all game elements on the canvas.
+     * Renders all game objects on the canvas in the correct order.
      */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -222,7 +221,7 @@ class World {
         this.addObjectsToMap(this.level.coins);
 
         this.ctx.translate(-this.camera_x, 0);
-        //------space for fixed obj------
+        // Fixed objects rendering
         this.addToMap(this.statusBar);
         this.addToMap(this.salsaBar);
         this.addToMap(this.coinBar);
@@ -234,7 +233,7 @@ class World {
         this.addObjectsToMap(this.throwableObjects);
 
         this.ctx.translate(-this.camera_x, 0);
-        // Draw is called repeatedly
+
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
@@ -242,18 +241,18 @@ class World {
     };
 
     /**
-     * Helper function to add multiple objects to the map for drawing.
-     * @param {Array} objects - Array of objects to add to the map.
+     * Helper function to add multiple objects to the map.
+     * @param {Array} objects - Array of objects to be added.
      */
     addObjectsToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o);
-        });
+        })
     }
 
     /**
-     * Adds an object to the canvas map for drawing.
-     * @param {DrawableObject} mo - The object to add to the map.
+     * Renders an object on the canvas and handles image flipping if necessary.
+     * @param {Object} mo - Object to be rendered.
      */
     addToMap(mo) {
         if (mo.otherDirection) {
@@ -268,22 +267,22 @@ class World {
     }
 
     /**
-     * Flips the image horizontally for objects that need it.
-     * @param {DrawableObject} mo - The object whose image needs flipping.
+     * Flips the image for an object horizontally.
+     * @param {Object} mo - Object whose image is to be flipped.
      */
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
         this.ctx.scale(-1, 1);
-        mo.x = mo.x * -1; // Correction: should translate x coordinate as well
+        mo.x = mo.x * -1;
     }
 
     /**
      * Restores the original image orientation after flipping.
-     * @param {DrawableObject} mo - The object whose image was flipped.
+     * @param {Object} mo - Object whose image is to be restored.
      */
     flipImageBack(mo) {
-        mo.x = mo.x * -1; // Correction: should translate x coordinate as well
+        mo.x = mo.x * -1;
         this.ctx.restore();
     }
 };

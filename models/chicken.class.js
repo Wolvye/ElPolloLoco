@@ -71,15 +71,9 @@ class Chicken extends MovableObject {
         // Randomize starting position
         this.x = 200 + Math.random() * 3000;
         this.y = 430 - this.height;
-
-        // Start animations and set initial properties
         this.animate();
         this.loadImages(this.IMAGES_WALKING);
-
-        // Randomize movement speed
         this.speed = 0.15 + Math.random() * 0.25;
-        
-        // Load dead chicken images
         this.loadImages(this.IMAGES_DEAD_CHICKI);
     }
 
@@ -87,14 +81,9 @@ class Chicken extends MovableObject {
      * Start the chicken's animations.
      */
     animate() {
-        // Set volume for chicken sound
         this.chicken_sound.volume = 0.01;
-
-        // Main animation loop: Move left and play chicken sound
         this.animateIntervallID = setInterval(() => {
             this.moveLeft();
-
-            // Play chicken sound if not muted
             if (soundMute) {
                 this.chicken_sound.muted = true;
             } else {
@@ -102,8 +91,6 @@ class Chicken extends MovableObject {
                 this.chicken_sound.play();
             }
         }, 1000 / 60);
-
-        // Secondary animation loop: Play walking animation every 200ms
         this.animateIntervallID2 = setInterval(() => {
             this.playAnimation(this.IMAGES_WALKING);
         }, 200);
