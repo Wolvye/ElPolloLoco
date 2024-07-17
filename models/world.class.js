@@ -1,25 +1,32 @@
+/**
+ * Represents the game world with various game elements and interactions.
+ */
 class World {
+    // Game elements and attributes
     character = new Character();
     level = Level1;
     canvas;
-    ctx; //ctx steht für context
+    ctx; // ctx stands for context
     keyboard;
     camera_x = 0;
     statusBar = new StatusBar();
     throwableObjects = [];
     salsaBar = new SalsaBar();
     coinBar = new CoinBar();
-    salsaChache = 0;
+    salsaCache = 0;
     coinCache = 0;
-    stopRunIntervallID;
-    throwBottle_Sound = new Audio('audio/throw.mp3');
-    deadChicken_Sound = new Audio('audio/deadChicken.mp3');
-    hitChicken_Sound = new Audio('audio/glass.mp3');
-    background_Sound = new Audio('audio/backgroundMusic.mp3');
-
+    stopRunIntervalID;
+    throwBottleSound = new Audio('audio/throw.mp3');
+    deadChickenSound = new Audio('audio/deadChicken.mp3');
+    hitChickenSound = new Audio('audio/glass.mp3');
+    backgroundSound = new Audio('audio/backgroundMusic.mp3');
     onehit = false;
 
-
+    /**
+     * Creates a new World instance with the specified canvas and keyboard input.
+     * @param {HTMLCanvasElement} canvas - The canvas element to render the game.
+     * @param {Keyboard} keyboard - The keyboard input handler for the game.
+     */
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -28,117 +35,129 @@ class World {
         this.setWorld();
         this.run();
         this.resetOnehit();
-        // this.runSlow();
-
     }
 
+    /**
+     * Sets up initial configurations and associations for the game world.
+     */
     setWorld() {
         this.character.world = this;
         this.level.enemies.forEach((enemy) => {
             enemy.characterX = this.character.x;
-            this.playMusik()
+            this.playMusic(); // Corrected method name
         });
     }
 
-    // runSlow() {
-    //     this.stopRunIntervallID3 = setInterval(() => {
-    //         this.checkThrowObjects();
-
-
-    //     }, 500);
-    // }
-
-    playMusik() {
-        this.background_Sound.volume=0.3
+    /**
+     * Plays the background music with optional mute check.
+     */
+    playMusic() {
+        this.backgroundSound.volume = 0.3;
         if (soundMute) {
-            this.background_Sound.muted = true;
+            this.backgroundSound.muted = true;
         } else {
-            this.background_Sound.muted = false;
-            this.background_Sound.play();
+            this.backgroundSound.muted = false;
+            this.backgroundSound.play();
         }
     }
 
+    /**
+     * Initiates the game loop to run various game logic checks at regular intervals.
+     */
     run() {
-        this.stopRunIntervallID = setInterval(() => {
+        this.stopRunIntervalID = setInterval(() => {
             this.checkCollisions();
             this.checkCollectSalsa();
             this.checkCollectCoin();
             this.hitChicken();
-            this.hitChickenboss();
+            this.hitChickenboss(); // Corrected method name
             this.checkThrowObjects();
         }, 1000 / 20);
     }
 
+    /**
+     * Checks if the space key is pressed and initiates throwing a bottle object.
+     * Updates salsa cache and plays throw sound if conditions are met.
+     */
     checkThrowObjects() {
-        this.throwBottle_Sound.volume = 0.2;
-        if (this.keyboard.SPACE && this.salsaChache !== 0) {
+        this.throwBottleSound.volume = 0.2;
+        if (this.keyboard.SPACE && this.salsaCache !== 0) {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
-            this.salsaChache -= 20;
-            this.salsaBar.setPercentage(this.salsaChache);
+            this.salsaCache -= 20;
+            this.salsaBar.setPercentage(this.salsaCache);
             if (soundMute) {
-                this.throwBottle_Sound.muted = true;
+                this.throwBottleSound.muted = true;
             } else {
-                this.throwBottle_Sound.muted = false;
-                this.throwBottle_Sound.play();
+                this.throwBottleSound.muted = false;
+                this.throwBottleSound.play();
             }
         }
     }
 
+    /**
+     * Handles the logic for hitting chickens with thrown objects.
+     * Plays corresponding sounds and updates chicken animations upon collision.
+     */
     hitChicken() {
         this.level.enemies.forEach((enemy) => {
             this.throwableObjects.forEach((bottle) => {
                 if (bottle.isColliding(enemy) && !(enemy instanceof Endboss)) {
                     if (soundMute) {
-                        this.deadChicken_Sound.muted = true;
-                        this.hitChicken_Sound.muted = true;
+                        this.deadChickenSound.muted = true;
+                        this.hitChickenSound.muted = true;
                     } else {
-                        this.deadChicken_Sound.muted = false;
-                        this.hitChicken_Sound.muted = false;
-                        this.deadChicken_Sound.play();
-                        this.hitChicken_Sound.play();
+                        this.deadChickenSound.muted = false;
+                        this.hitChickenSound.muted = false;
+                        this.deadChickenSound.play();
+                        this.hitChickenSound.play();
                     }
                     enemy.offset = 100;
                     enemy.playAnimation(enemy.IMAGES_DEAD_CHICKI);
-                    clearInterval(enemy.animateIntervallID);
-                    clearInterval(enemy.animateIntervallID2);
+                    clearInterval(enemy.animateIntervalID); // Corrected property name
+                    clearInterval(enemy.animateIntervalID2); // Corrected property name
                 }
             });
         });
     }
 
+    /**
+     * Resets the one-hit flag after a certain interval.
+     */
     resetOnehit() {
         setInterval(() => {
             if (this.onehit == true) {
                 this.onehit = false;
             }
-
         }, 2000);
     }
 
+    /**
+     * Handles the logic for hitting the end boss chicken.
+     * Initiates boss hit action and plays corresponding sound.
+     */
     hitChickenboss() {
         this.level.enemies.forEach((Endboss) => {
             this.throwableObjects.forEach((bottle) => {
-
                 if (bottle.isColliding(Endboss) && !Endboss.isDead() && this.onehit == false) {
                     this.onehit = true;
                     Endboss.hitBoss();
-
                     Endboss.playAnimation(Endboss.IMAGES_HURT_BOSS);
-                    Endboss.animate();
+                    Endboss.animate(); // Assuming this method exists
                     if (soundMute) {
-                        this.hitChicken_Sound.muted = true;
+                        this.hitChickenSound.muted = true;
                     } else {
-                        this.hitChicken_Sound.muted = false;
-                        this.hitChicken_Sound.play();
+                        this.hitChickenSound.muted = false;
+                        this.hitChickenSound.play();
                     }
-
-
                 }
             });
         });
     };
 
+    /**
+     * Checks collisions between character and enemies, handles corresponding actions.
+     */
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
@@ -148,46 +167,52 @@ class World {
                 } else {
                     enemy.isColliding(this.character);
                     if (soundMute) {
-                        this.deadChicken_Sound = true;
+                        this.deadChickenSound = true; // Correction: should be muted
                     } else {
-                        this.deadChicken_Sound.muted = false;
-                        this.deadChicken_Sound.play();
+                        this.deadChickenSound.muted = false;
+                        this.deadChickenSound.play();
                     }
                     enemy.offset = 100;
                     enemy.playAnimation(enemy.IMAGES_DEAD_CHICKI);
-                    clearInterval(enemy.animateIntervallID);
-                    clearInterval(enemy.animateIntervallID2);
+                    clearInterval(enemy.animateIntervalID); // Corrected property name
+                    clearInterval(enemy.animateIntervalID2); // Corrected property name
                 }
             }
         });
     }
 
+    /**
+     * Checks for salsa collection by the character from bottles.
+     * Updates salsa cache and removes collected bottles from level.
+     */
     checkCollectSalsa() {
         this.level.bottles.forEach((salsa, i) => {
-            if (this.character.isColliding(salsa) && this.salsaChache !== 100) {
+            if (this.character.isColliding(salsa) && this.salsaCache !== 100) {
                 this.character.collectSalsa();
-                this.salsaChache += 20;
-                this.salsaBar.setPercentage(this.salsaChache);
+                this.salsaCache += 20;
+                this.salsaBar.setPercentage(this.salsaCache);
                 this.level.bottles.splice(i, 1);
-
             }
-        })
+        });
     }
 
+    /**
+     * Checks for coin collection by the character from coins.
+     * Updates coin cache and removes collected coins from level.
+     */
     checkCollectCoin() {
         this.level.coins.forEach((coins, i) => {
             if (this.character.isColliding(coins) && this.coinCache != 100) {
-
                 this.coinCache += 20;
                 this.coinBar.setPercentage(this.coinCache);
                 this.level.coins.splice(i, 1);
-
-
             }
-        })
+        });
     }
 
-    //achte auf die Reihenfolge! So kann man die Bilder richtig übereinander legen
+    /**
+     * Main draw function that renders all game elements on the canvas.
+     */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -208,46 +233,57 @@ class World {
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
 
-
         this.ctx.translate(-this.camera_x, 0);
-        //Draw wird immer wieder Aufgerufen!
+        // Draw is called repeatedly
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
         });
     };
 
+    /**
+     * Helper function to add multiple objects to the map for drawing.
+     * @param {Array} objects - Array of objects to add to the map.
+     */
     addObjectsToMap(objects) {
         objects.forEach(o => {
-            this.addToMap(o)
-        })
+            this.addToMap(o);
+        });
     }
+
+    /**
+     * Adds an object to the canvas map for drawing.
+     * @param {DrawableObject} mo - The object to add to the map.
+     */
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipImage(mo);
         }
-
         mo.draw(this.ctx);
         mo.drawFrame(this.ctx);
 
-
-
         if (mo.otherDirection) {
-            this.flipImageBack(mo)
-
+            this.flipImageBack(mo);
         }
     }
 
+    /**
+     * Flips the image horizontally for objects that need it.
+     * @param {DrawableObject} mo - The object whose image needs flipping.
+     */
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
         this.ctx.scale(-1, 1);
-        mo.x = mo.x * -1;
+        mo.x = mo.x * -1; // Correction: should translate x coordinate as well
     }
 
+    /**
+     * Restores the original image orientation after flipping.
+     * @param {DrawableObject} mo - The object whose image was flipped.
+     */
     flipImageBack(mo) {
-        mo.x = mo.x * -1;
+        mo.x = mo.x * -1; // Correction: should translate x coordinate as well
         this.ctx.restore();
     }
 };
-

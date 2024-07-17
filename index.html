@@ -32,33 +32,35 @@
 
 </head>
 
-<body >
+<body>
 
-    <h1>El Pollo Loco <br> 
+    <h1>El Pollo Loco <br>
         Click to Start</h1>
-    
-    <div class="topPanelClass" id="topPanelID"><button onclick="muteSounds()" id="soundButton"><img src="img/design/soundOFF.png" alt=""></button> 
-      <div onclick="init()" class="newStartButton" id="newStartButtonID"> <img src="img/design/restart.png" alt="restart Button"> </div>
+
+    <div class="topPanelClass" id="topPanelID"><button onclick="muteSounds()" id="soundButton"><img
+                src="img/design/soundOFF.png" alt=""></button>
+        <div onclick="init()" class="newStartButton" id="newStartButtonID"> <img src="img/design/restart.png"
+                alt="restart Button"> </div>
         <!-- <button onclick="fullscreen()"><img src="img/design/fullscreen.png" alt="fullscreenIcon"></button> -->
     </div>
 
     <div id="fullscreenID"><canvas id="canvas" width="720" height="480"></canvas>
-        <div class="elManuel" id="elManuelID" >Arrow Buttons to move <br> Space to throw Salsa <br> Up to Jump</div>
+        <div class="elManuel" id="elManuelID">Arrow Buttons to move <br> Space to throw Salsa <br> Up to Jump</div>
     </div>
-   
+
     <panel class="panel">
         <div class="buttonsClassLeft">
             <button class="MoveButtonClass" id="leftButton"><img src="img/design/left.png" alt="leftbutton"></button>
             <button class="MoveButtonClass" id="rightButton"><img src="img/design/right.png" alt=""></button>
         </div>
-       
+
         <div class="buttonclassRight">
             <button class="MoveButtonClass" id="upButton"><img src="img/design/up.png" alt=""></button>
             <button class="MoveButtonClass" id="throwButton"><img src="img/design/space.png" alt=""></button>
         </div>
     </panel>
     <div class="startScreen" id="startScreenID" onclick="startButton(), initLevel()">
-     
+
     </div>
     <div class="gameOver" id="gameOverID"></div>
     <footer>
@@ -73,9 +75,8 @@
             </ul>
         </nav>
     </footer>
-   
+
 
 </body>
 
 </html>
-
