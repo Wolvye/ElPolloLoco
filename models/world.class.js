@@ -49,6 +49,7 @@ class World {
     // }
 
     playMusik() {
+        this.background_Sound.volume=0.3
         if (soundMute) {
             this.background_Sound.muted = true;
         } else {

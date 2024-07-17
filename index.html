@@ -38,10 +38,12 @@
         Click to Start</h1>
     
     <div class="topPanelClass" id="topPanelID"><button onclick="muteSounds()" id="soundButton"><img src="img/design/soundOFF.png" alt=""></button> 
-      
-        <button onclick="fullscreen()"><img src="img/design/fullscreen.png" alt="fullscreenIcon"></button>
+      <div onclick="init()" class="newStartButton" id="newStartButtonID"> <img src="img/design/restart.png" alt="restart Button"> </div>
+        <!-- <button onclick="fullscreen()"><img src="img/design/fullscreen.png" alt="fullscreenIcon"></button> -->
     </div>
+
     <div id="fullscreenID"><canvas id="canvas" width="720" height="480"></canvas>
+        <div class="elManuel" id="elManuelID" >Arrow Buttons to move <br> Space to throw Salsa <br> Up to Jump</div>
     </div>
    
     <panel class="panel">
@@ -63,9 +65,11 @@
         <p>&copy; 2024 El Pollo Loco</p>
         <nav>
             <ul>
-                <li><a href="index.html">NEW GAME</a></li>
+
                 <li><a href="impressum.html">Impressum</a></li>
-                <li><a href="privacy_police.html">Datenschutz</a></li>
+                <li><a href="privacy_police.html">Privacy Policy</a></li>
+                <li><a class="manuel" onclick="manuel()">Manuel</a></li>
+
             </ul>
         </nav>
     </footer>

@@ -2,6 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let soundMute = true;
+let button = true;
 
 function muteSounds() {
     // soundMute = soundMute ? false : true;
@@ -57,9 +58,15 @@ function startButton() {
     document.getElementById('startScreenID').classList.add('d-none');
     init()
 }
-
-function gameOverScreen() {
-    document.getElementById('gameOverID').classList.add('d-inline');
+function manuel() {
+    if(button) {
+        document.getElementById('elManuelID').classList.add('d-inline');
+        document.getElementById('elManuelID').classList.remove('d-none');
+    } else {
+        document.getElementById('elManuelID').classList.add('d-none');
+        document.getElementById('elManuelID').classList.remove('d-inline');
+    }
+    button = !button;  // Toggle the button state
 }
 
 function bindButtons() {
