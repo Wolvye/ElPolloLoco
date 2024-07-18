@@ -17,7 +17,7 @@ class World {
     deadChicken_Sound = new Audio('audio/deadChicken.mp3');
     hitChicken_Sound = new Audio('audio/glass.mp3');
     onehit = false;
-
+    bottleThrow=true;
     /**
      * Constructor for initializing the game world.
      * @param {HTMLCanvasElement} canvas - The canvas element to draw on.
@@ -33,7 +33,6 @@ class World {
         this.resetOnehit();
         this.soundChicken();
         this.soundThrowBottle();
-
     }
 
     /**
@@ -46,17 +45,18 @@ class World {
 
         });
     }
-
+    
     /**
      * Main game loop that runs at an interval.
      */
     run() {
         this.stopRunIntervallID = setInterval(() => {
-            this.checkCollisions();
+            
             this.checkCollectSalsa();
             this.checkCollectCoin();
             this.hitChicken();
             this.hitChickenboss();
+            this.checkCollisions();
             this.checkThrowObjects();
 
         }, 1000 / 50);
@@ -67,8 +67,12 @@ class World {
      */
     checkThrowObjects() {
         this.throwBottle_Sound.volume = 0.2;
-        if (this.keyboard.D && this.salsaChache !== 0) {
+        if (this.keyboard.D && this.salsaChache !== 0 && this.bottleThrow==true) {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+            this.bottleThrow=false;
+            setTimeout(() => {
+                this.bottleThrow=true;
+            }, 500);
             this.throwableObjects.push(bottle);
             this.salsaChache -= 20;
             this.salsaBar.setPercentage(this.salsaChache);
@@ -91,7 +95,7 @@ class World {
         this.level.enemies.forEach((enemy) => {
             this.throwableObjects.forEach((bottle) => {
                 if (bottle.isColliding(enemy) && !(enemy instanceof Endboss)) {
-                    soundChicken();
+                    this.soundChicken();
                     enemy.offset = 100;
                     enemy.playAnimation(enemy.IMAGES_DEAD_CHICKI);
                     clearInterval(enemy.animateIntervallID);
@@ -113,7 +117,6 @@ class World {
             this.hitChicken_Sound.play();
         }
     }
-
 
     /**
      * Resets the onehit flag after a delay.
@@ -180,8 +183,6 @@ class World {
         });
     }
     
-
- 
     /**
      * Checks for salsa bottles collected by the character.
      */

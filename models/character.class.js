@@ -149,96 +149,91 @@ class Character extends MovableObject {
      */
     jump_sound = new Audio('audio/jump.mp3');
 
+    energy=1500;
     /**
      * Create a character object.
      */
     constructor() {
-        // Load initial image
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
 
-        // Preload all animation images
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_SLEEP);
-
-        // Start animations and apply gravity
         this.animate();
-        this.apllyGravity(); // Typo: Should be 'applyGravity'
+        this.apllyGravity();
+        this.walkSound();
+        this.intervall1();
+        this.intervall2();
     }
 
     /**
      * Start the animation loops.
      */
+    walkSound() {
+        if (soundMute) {
+            this.walking_sound.muted = true;
+        } else {
+            this.walking_sound.muted = false;
+            this.walking_sound.play();
+        }
+
+    }
+    jumpSound() {
+        if (soundMute) {
+            this.jump_sound.muted = true;
+        } else {
+            this.jump_sound.muted = false;
+            this.jump_sound.play();
+        }
+
+    }
     animate() {
-      
+        this.intervall1();
+   
+        this.intervall2();
+        
+    }
+    intervall1(){
         setInterval(() => {
             this.walking_sound.pause();
-
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
-
-                if (soundMute) {
-                    this.walking_sound.muted = true;
-                } else {
-                    this.walking_sound.muted = false;
-                    this.walking_sound.play();
-                }
+                this.walkSound();
 
                 this.otherDirection = false;
             }
-
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.moveLeft();
-
-                if (soundMute) {
-                    this.walking_sound.muted = true;
-                } else {
-                    this.walking_sound.muted = false;
-                    this.walking_sound.play();
-                }
-
+                this.walkSound();
                 this.otherDirection = true;
             }
-
             if (this.world.keyboard.UP && !this.isAboveGround()) {
                 this.jump();
-
-                if (soundMute) {
-                    this.jump_sound.muted = true;
-                } else {
-                    this.jump_sound.muted = false;
-                    this.jump_sound.play();
-                }
+                this.jumpSound();
             }
-
             this.world.camera_x = -this.x + 100;
-        }, 1000 / 60);
-
+        }, 1000/60);
+    }
+    intervall2(){
         let currentTime = null;
         setInterval(() => {
             if (this.isDead()) {
-                // Play dead animation and trigger game over
                 this.playAnimation(this.IMAGES_DEAD);
                 this.gameOver();
             } else if (this.isHurt()) {
-                // Play hurt animation
                 this.playAnimation(this.IMAGES_HURT);
-                currentTime = null; // Reset sleep timer
+                currentTime = null;
             } else if (this.isAboveGround()) {
-                // Play jumping animation
                 this.playAnimation(this.IMAGES_JUMPING);
-                currentTime = null; // Reset sleep timer
+                currentTime = null;
             } else {
-                // Determine idle or sleep animation based on keyboard input and idle duration
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    // Play walking animation
-                    currentTime = null; // Reset sleep timer
+                    currentTime = null;
                     this.playAnimation(this.IMAGES_WALKING);
                 } else {
-                    // Play idle animation and switch to sleep after idle duration
                     this.playAnimation(this.IMAGES_IDLE);
                     let elapsedTime = 0;
                     if (currentTime === null) {
@@ -252,7 +247,6 @@ class Character extends MovableObject {
             }
         }, 50);
     }
-
     /**
      * Handle game over state.
      */
@@ -266,9 +260,8 @@ class Character extends MovableObject {
         this.loadImage('img/9_intro_outro_screens/game_over/game over!.png');
 
         clearAllIntervals();
-
         if (soundMute) {
-            this.gameOver_Sound = true; // Typo: Should be `this.gameOver_Sound.muted = true;`
+            this.gameOver_Sound = true;
         } else {
             this.gameOver_Sound.muted = false;
             this.gameOver_Sound.play();
