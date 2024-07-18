@@ -19,7 +19,7 @@ class Character extends MovableObject {
      * The movement speed of the character.
      * @type {number}
      */
-    speed = 10;
+    speed = 5;
 
     /**
      * The initial y-coordinate of the character.
@@ -149,7 +149,12 @@ class Character extends MovableObject {
      */
     jump_sound = new Audio('audio/jump.mp3');
 
-    energy=1500;
+    /**
+     * The character's energy level.
+     * @type {number}
+     */
+    energy = 1500;
+
     /**
      * Create a character object.
      */
@@ -165,12 +170,12 @@ class Character extends MovableObject {
         this.animate();
         this.apllyGravity();
         this.walkSound();
-        this.intervall1();
-        this.intervall2();
+        this.handlerMove();
+        this.handlerAnimation();
     }
 
     /**
-     * Start the animation loops.
+     * Play walking sound.
      */
     walkSound() {
         if (soundMute) {
@@ -179,8 +184,11 @@ class Character extends MovableObject {
             this.walking_sound.muted = false;
             this.walking_sound.play();
         }
-
     }
+
+    /**
+     * Play jump sound.
+     */
     jumpSound() {
         if (soundMute) {
             this.jump_sound.muted = true;
@@ -188,21 +196,25 @@ class Character extends MovableObject {
             this.jump_sound.muted = false;
             this.jump_sound.play();
         }
+    }
 
-    }
+    /**
+     * Start the animation loops.
+     */
     animate() {
-        this.intervall1();
-   
-        this.intervall2();
-        
+        this.handlerMove();
+        this.handlerAnimation();
     }
-    intervall1(){
+
+    /**
+     * Handle character movement based on keyboard input.
+     */
+    handlerMove() {
         setInterval(() => {
             this.walking_sound.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.walkSound();
-
                 this.otherDirection = false;
             }
             if (this.world.keyboard.LEFT && this.x > 0) {
@@ -215,9 +227,13 @@ class Character extends MovableObject {
                 this.jumpSound();
             }
             this.world.camera_x = -this.x + 100;
-        }, 1000/60);
+        }, 1000 / 60);
     }
-    intervall2(){
+
+    /**
+     * Handle character animation based on state.
+     */
+    handlerAnimation() {
         let currentTime = null;
         setInterval(() => {
             if (this.isDead()) {
@@ -247,6 +263,7 @@ class Character extends MovableObject {
             }
         }, 50);
     }
+
     /**
      * Handle game over state.
      */
@@ -261,7 +278,7 @@ class Character extends MovableObject {
 
         clearAllIntervals();
         if (soundMute) {
-            this.gameOver_Sound = true;
+            this.gameOver_Sound.muted = true;
         } else {
             this.gameOver_Sound.muted = false;
             this.gameOver_Sound.play();

@@ -34,6 +34,7 @@ class World {
         this.resetOnehit();
         this.soundChicken();
         this.soundThrowBottle();
+        this.soundDeadChicken();
     }
 
     /**
@@ -89,7 +90,14 @@ class World {
             this.throwBottle_Sound.play();
         }
     }
-
+    soundDeadChicken() {
+        if (soundMute) {
+            this.deadChicken_Sound.muted = true;
+        } else {
+            this.deadChicken_Sound.muted = false;
+            this.deadChicken_Sound.play();
+        }
+    }
     /**
      * Checks for hits on regular chickens and performs actions accordingly.
      */
@@ -167,12 +175,7 @@ class World {
                     this.statusBar.setPercentage(this.character.energy);
                 } else {
                     enemy.isColliding(this.character);
-                    if (soundMute) {
-                        this.deadChicken_Sound = true;
-                    } else {
-                        this.deadChicken_Sound.muted = false;
-                        this.deadChicken_Sound.play();
-                    }
+                    this.soundDeadChicken();
                     enemy.offset = 100;
                     if (enemy instanceof Chicken) {
                         enemy.playAnimation(enemy.IMAGES_DEAD_CHICKI);

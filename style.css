@@ -121,7 +121,7 @@ footer a:hover {
     cursor: pointer;
 }
 
-@media only screen and (orientation:portrait) and (max-width:751px) {
+@media only screen and (orientation:portrait) and (max-width:781px) {
     .turn {
         display: flex;
     }
@@ -153,9 +153,7 @@ footer a:hover {
 }
 
 @media only screen and (max-height:780px) {
-    h1 {
-        display: none;
-    }
+   
 
     footer {
         display: none;
@@ -251,7 +249,7 @@ footer a:hover {
     }
 
     .panel {
-        border: 3px solid black;
+    
         height: 100vh;
         width: auto;
         display: flex;
