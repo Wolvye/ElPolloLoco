@@ -38,7 +38,7 @@ class StatusBar extends DrawableObject {
      * @returns {number} Index of the image in IMAGES_HITPOINTS.
      */
     resolveImageIndex() {
-        if (this.percentage >= 1500) {
+        if (this.percentage  ==1500) {
             return 5;
         } else if (this.percentage >= 1200) {
             return 4;
