@@ -2,7 +2,6 @@
  * Represents a movable object in the game, extending DrawableObject.
  */
 class MovableObject extends DrawableObject {
-    // Initial properties of the movable object
     speed = 0.15;
     otherDirection = false;
     speedY = 0;

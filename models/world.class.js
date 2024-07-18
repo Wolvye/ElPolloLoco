@@ -17,7 +17,8 @@ class World {
     deadChicken_Sound = new Audio('audio/deadChicken.mp3');
     hitChicken_Sound = new Audio('audio/glass.mp3');
     onehit = false;
-    bottleThrow=true;
+    bottleThrow = true;
+
     /**
      * Constructor for initializing the game world.
      * @param {HTMLCanvasElement} canvas - The canvas element to draw on.
@@ -42,23 +43,20 @@ class World {
         this.character.world = this;
         this.level.enemies.forEach((enemy) => {
             enemy.characterX = this.character.x;
-
         });
     }
-    
+
     /**
      * Main game loop that runs at an interval.
      */
     run() {
         this.stopRunIntervallID = setInterval(() => {
-            
             this.checkCollectSalsa();
             this.checkCollectCoin();
             this.hitChicken();
             this.hitChickenboss();
             this.checkCollisions();
             this.checkThrowObjects();
-
         }, 1000 / 50);
     }
 
@@ -67,19 +65,22 @@ class World {
      */
     checkThrowObjects() {
         this.throwBottle_Sound.volume = 0.2;
-        if (this.keyboard.D && this.salsaChache !== 0 && this.bottleThrow==true) {
+        if (this.keyboard.D && this.salsaChache !== 0 && this.bottleThrow == true) {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
-            this.bottleThrow=false;
+            this.bottleThrow = false;
             setTimeout(() => {
-                this.bottleThrow=true;
+                this.bottleThrow = true;
             }, 500);
             this.throwableObjects.push(bottle);
             this.salsaChache -= 20;
             this.salsaBar.setPercentage(this.salsaChache);
             this.soundThrowBottle();
-
         }
     }
+
+    /**
+     * Plays the sound for throwing a bottle.
+     */
     soundThrowBottle() {
         if (soundMute) {
             this.throwBottle_Sound.muted = true;
@@ -88,6 +89,7 @@ class World {
             this.throwBottle_Sound.play();
         }
     }
+
     /**
      * Checks for hits on regular chickens and performs actions accordingly.
      */
@@ -106,6 +108,9 @@ class World {
         });
     }
 
+    /**
+     * Plays the sound for hitting a chicken.
+     */
     soundChicken() {
         if (soundMute) {
             this.deadChicken_Sound.muted = true;
@@ -182,7 +187,7 @@ class World {
             }
         });
     }
-    
+
     /**
      * Checks for salsa bottles collected by the character.
      */
