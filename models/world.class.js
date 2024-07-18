@@ -173,7 +173,7 @@ class World {
                 if (!this.character.isAboveGround()) {
                     this.character.hit();
                     this.statusBar.setPercentage(this.character.energy);
-                } else {
+                } else if(this.character.y <=0){
                     enemy.isColliding(this.character);
                     this.soundDeadChicken();
                     enemy.offset = 100;

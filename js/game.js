@@ -5,12 +5,13 @@ let soundMute = true;
 let button = true;
 let background_Sound = new Audio('audio/backgroundMusic.mp3');
 background_Sound.volume=0.3;
+let backgroundIsPlaying=true;
 function muteSounds() {
     
     // soundMute = soundMute ? false : true;
     // soundMute = !soundMute;
     let buttonImage = document.querySelector('#soundButton img');
-    if (soundMute) {
+    if (soundMute && backgroundIsPlaying) {
         background_Sound.muted = false;
         soundMute = false;
         buttonImage.src = 'img/design/soundON.png';
@@ -63,7 +64,9 @@ function musik(){
         background_Sound.muted = true;
     } else {
         background_Sound.muted = false;
-        background_Sound.play();
+        background_Sound.play().then(()=>{
+            backgroundIsPlaying =true;
+        });
     }
 }
 
