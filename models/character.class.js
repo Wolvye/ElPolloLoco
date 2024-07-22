@@ -158,6 +158,8 @@ class Character extends MovableObject {
     /**
      * Create a character object.
      */
+    currentTime = null;
+
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
 
@@ -172,6 +174,7 @@ class Character extends MovableObject {
         this.walkSound();
         this.handlerMove();
         this.handlerAnimation();
+        this.smallHandlerAnimation();
     }
 
     /**
@@ -234,36 +237,41 @@ class Character extends MovableObject {
      * Handle character animation based on state.
      */
     handlerAnimation() {
-        let currentTime = null;
         setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
                 this.gameOver();
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
-                currentTime = null;
+                this.currentTime = null;
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
-                currentTime = null;
+                this.currentTime = null;
             } else {
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    currentTime = null;
-                    this.playAnimation(this.IMAGES_WALKING);
-                } else {
-                    this.playAnimation(this.IMAGES_IDLE);
-                    let elapsedTime = 0;
-                    if (currentTime === null) {
-                        currentTime = new Date().getTime();
-                    }
-                    elapsedTime = new Date().getTime() - currentTime;
-                    if (elapsedTime >= 3000) {
-                        this.playAnimation(this.IMAGES_SLEEP);
-                    }
-                }
+                this.smallHandlerAnimation();                
             }
         }, 50);
     }
 
+     /**
+     * Handle game animation.
+     */
+    smallHandlerAnimation(){
+        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            this.currentTime = null;
+            this.playAnimation(this.IMAGES_WALKING);
+        } else {
+            this.playAnimation(this.IMAGES_IDLE);
+            let elapsedTime = 0;
+            if (this.currentTime === null) {
+                this.currentTime = new Date().getTime();
+            }
+            elapsedTime = new Date().getTime() - this.currentTime;
+            if (elapsedTime >= 3000) {
+                this.playAnimation(this.IMAGES_SLEEP);
+            }
+        }
+    }
     /**
      * Handle game over state.
      */
