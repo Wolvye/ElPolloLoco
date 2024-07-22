@@ -156,10 +156,13 @@ class Character extends MovableObject {
     energy = 1500;
 
     /**
-     * Create a character object.
+    * The character's energy level.
+    * @type {Date}
      */
     currentTime = null;
-
+    /**
+     * Create a character object.
+     */
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
 
@@ -248,18 +251,23 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_JUMPING);
                 this.currentTime = null;
             } else {
-                this.smallHandlerAnimation();                
+                this.smallHandlerAnimation();
             }
         }, 50);
     }
 
-     /**
-     * Handle game animation.
-     */
-    smallHandlerAnimation(){
-        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-            this.currentTime = null;
-            this.playAnimation(this.IMAGES_WALKING);
+    /**
+    * Handle game animation for resting.
+    */
+    smallHandlerAnimation() {
+        setTimeout(() => {
+
+        }, 1000);
+        if (this.setTimeout) {
+            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                this.currentTime = null;
+                this.playAnimation(this.IMAGES_WALKING);
+            }
         } else {
             this.playAnimation(this.IMAGES_IDLE);
             let elapsedTime = 0;
