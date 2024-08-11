@@ -178,6 +178,7 @@ class Character extends MovableObject {
         this.handlerMove();
         this.handlerAnimation();
         this.smallHandlerAnimation();
+        
     }
 
     /**
