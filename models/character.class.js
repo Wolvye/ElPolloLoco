@@ -261,15 +261,11 @@ class Character extends MovableObject {
     * Handle game animation for resting.
     */
     smallHandlerAnimation() {
-        setTimeout(() => {
-
-        }, 1000);
-        if (this.setTimeout) {
-            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            if (keyboard.RIGHT || keyboard.LEFT) {
                 this.currentTime = null;
                 this.playAnimation(this.IMAGES_WALKING);
             }
-        } else {
+         else {
             this.playAnimation(this.IMAGES_IDLE);
             let elapsedTime = 0;
             if (this.currentTime === null) {
